@@ -1,0 +1,33 @@
+# Git
+.git
+.gitignore
+
+# Node.js
+node_modules
+**/node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnpm-store
+
+# Turborepo
+.turbo
+out
+
+# Build outputs
+dist
+**/dist
+build
+**/build
+.tsbuildinfo
+
+# Local development and config
+.env
+.env.*
+.vscode
+.idea
+*.log
+
+# Docker specific files themselves
+Dockerfile
+docker-compose.yml

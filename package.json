@@ -1,0 +1,20 @@
+{
+  "name": "adviprog25",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "pnpm exec biome check",
+    "lint:fix": "pnpm exec biome check --write"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.2",
+    "@types/node": "^24.3.0",
+    "turbo": "^2.5.6",
+    "typescript": "5.9.2"
+  },
+  "packageManager": "pnpm@10.15.0",
+  "engines": {
+    "node": ">=22"
+  }
+}

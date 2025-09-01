@@ -1,0 +1,17 @@
+name: Check Pull Request Title
+
+on:
+  pull_request:
+    branches: ["main"]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - uses: Slashgear/action-check-pr-title@v4.3.0
+        with:
+          regexp: "(feat|fix|docs|refactor|chore|remove|ci|deps): .+" # Regex the title should match.
+          helpMessage: "example: 'fix: add tailwindcss plugin to vite config'"

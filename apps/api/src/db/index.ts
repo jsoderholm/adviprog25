@@ -5,6 +5,7 @@ import env from "@/env";
 export const db = drizzle({
   connection: {
     connectionString: env.DATABASE_URL,
+    max: env.DB_MIGRATING ? 1 : undefined,
   },
   schema,
   logger: true,

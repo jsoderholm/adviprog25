@@ -23,7 +23,7 @@ build
 
 # Local development and config
 .env
-.env.*
+.env.production
 .vscode
 .idea
 *.log

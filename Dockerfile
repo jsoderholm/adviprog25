@@ -56,7 +56,7 @@ RUN pnpm build
 
 # =========================================================================== #
 
-FROM base AS runner
+FROM builder AS runner
 
 ENV NODE_ENV=production
 

@@ -56,7 +56,7 @@ RUN pnpm build
 
 # =========================================================================== #
 
-FROM base AS runner
+FROM builder AS runner
 
 ENV NODE_ENV=production
 
@@ -70,4 +70,4 @@ EXPOSE 3000
 
 USER hono
 
-CMD cd /app/apps/api && pnpm db:migrate && node dist/src/index.js
+CMD pnpm --dir apps/api db:migrate && node apps/api/dist/src/index.js

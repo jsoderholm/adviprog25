@@ -5,10 +5,7 @@ import z from "zod";
 
 expand(
   config({
-    path: path.resolve(
-      process.cwd(),
-      process.env.NODE_ENV === "test" ? ".env.test" : ".env",
-    ),
+    path: path.resolve(process.cwd(), ".env"),
     quiet: true,
   }),
 );
@@ -23,7 +20,6 @@ const stringBoolean = z.coerce
 const EnvSchema = z.object({
   NODE_ENV: z.string().default("development"),
   PORT: z.coerce.number().default(3000),
-  DATABASE_URL: z.url(),
   LOG_LEVEL: z.enum([
     "fatal",
     "error",
@@ -33,19 +29,28 @@ const EnvSchema = z.object({
     "trace",
     "silent",
   ]),
+
+  DATABASE_URL: z.url(),
+  DB_HOST: z.string(),
+  DB_USER: z.string(),
+  DB_PASSWORD: z.string(),
+  DB_NAME: z.string(),
+  DB_PORT: z.coerce.number(),
   DB_MIGRATING: stringBoolean,
+
+  BETTER_AUTH_URL: z.url(),
+  BETTER_AUTH_SECRET: z.string(),
+  RESEND_API_KEY: z.string(),
 });
 
 export type Env = z.infer<typeof EnvSchema>;
 
-let env: Env;
+const { data: env, error } = EnvSchema.safeParse(process.env);
 
-try {
-  env = EnvSchema.parse(process.env);
-} catch (e) {
-  const error = e as z.ZodError;
+if (error) {
+  console.error("Invalid environment variables:");
   console.error(z.flattenError(error).fieldErrors);
   process.exit(1);
 }
 
-export default env;
+export default env!;

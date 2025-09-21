@@ -1,19 +1,18 @@
 import { serveStatic } from "@hono/node-server/serve-static";
 import configureOpenAPI from "@/lib/configure-open-api";
-import createApp, { createRouter } from "@/lib/create-app";
+import createApp from "@/lib/create-app";
+import auth from "@/routes/auth";
+import index from "@/routes/index.route";
 
 const app = createApp();
 
-configureOpenAPI(app);
+const apiRoutes = app.basePath("/api").route("/", index).route("/", auth);
 
-const apiRoutes = app.basePath("/api").route(
-  "/",
-  createRouter().get("/", (c) => c.json({ message: "adviprog25" })),
-);
+configureOpenAPI(apiRoutes);
 
 app.get("*", serveStatic({ root: "../web/dist" }));
 app.get("*", serveStatic({ path: "index.html", root: "../web/dist" }));
 
-export type ApiRoutes = typeof apiRoutes;
+export type AppType = typeof apiRoutes;
 
 export default app;

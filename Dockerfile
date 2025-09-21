@@ -70,4 +70,4 @@ EXPOSE 3000
 
 USER hono
 
-CMD node apps/api/dist/src/index.js
+CMD cd /app/apps/api && pnpm db:migrate && node dist/src/index.js

@@ -28,17 +28,23 @@ export const AuthenticationForm = () => {
       email: "",
       password: "",
     },
-    onSubmit: ({ value }) => {
+    onSubmit: async ({ value }) => {
       const options: Parameters<typeof authClient.signIn.email>[1] = {
-        onSuccess: () => navigate({ to: "/" }),
+        onSuccess: () => {
+          if (!isLogin)
+            toast.success("Please check your email to confirm your account.");
+          navigate({ to: isLogin ? "/" : "/login" });
+        },
         onError: (ctx) => {
-          toast.error(ctx.error.message);
+          if (ctx.error.message) toast.error(ctx.error.message);
         },
       };
 
-      if (isLogin) authClient.signIn.email(value, options);
+      const { signIn, signUp } = authClient;
+
+      if (isLogin) await signIn.email(value, options);
       else
-        authClient.signUp.email(
+        await signUp.email(
           {
             ...value,
             name: value.email,
@@ -80,7 +86,7 @@ export const AuthenticationForm = () => {
                 disabled
               >
                 <Icons.gitHub />
-                Continue with Github
+                Continue with GitHub
               </Button>
 
               <div className="relative text-sm text-center after:border-border after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">

@@ -1,8 +1,8 @@
 import { serveStatic } from "@hono/node-server/serve-static";
-import configureOpenAPI from "@/lib/configure-open-api";
-import createApp from "@/lib/create-app";
-import auth from "@/routes/auth";
-import index from "@/routes/index.route";
+import configureOpenAPI from "./lib/configure-open-api";
+import createApp from "./lib/create-app";
+import auth from "./routes/auth";
+import index from "./routes/index.route";
 
 const app = createApp();
 

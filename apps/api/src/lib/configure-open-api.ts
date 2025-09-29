@@ -1,7 +1,7 @@
 import { Scalar } from "@scalar/hono-api-reference";
-import env from "@/env";
-import type { AppOpenAPI } from "@/lib/create-app";
 import packageJSON from "../../package.json" with { type: "json" };
+import env from "../env";
+import type { AppOpenAPI } from "./create-app";
 
 export default function configureOpenAPI(app: AppOpenAPI) {
   if (env.NODE_ENV === "production") return;

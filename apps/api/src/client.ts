@@ -1,11 +1,8 @@
 import { createAuthClient } from "better-auth/client";
 import { hc } from "hono/client";
-import type { AppType } from "@/app";
-import env from "@/env";
+import type { AppType } from "./app";
 
-const authClient = createAuthClient({
-  baseURL: env.BETTER_AUTH_URL,
-});
+const authClient = createAuthClient();
 
 const { api } = hc<AppType>("/");
 

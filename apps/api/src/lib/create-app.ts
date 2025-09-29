@@ -7,9 +7,9 @@ import { requestId } from "hono/request-id";
 import type { PinoLogger } from "hono-pino";
 import { notFound, onError, serveEmojiFavicon } from "stoker/middlewares";
 import { defaultHook } from "stoker/openapi";
-import type { auth } from "@/lib/auth";
-import { authMiddleware } from "@/middlewares/auth";
-import { pinoLogger } from "@/middlewares/pino-logger";
+import type { auth } from "../lib/auth";
+import { authMiddleware } from "../middlewares/auth";
+import { pinoLogger } from "../middlewares/pino-logger";
 
 export interface AppBindings {
   Variables: {

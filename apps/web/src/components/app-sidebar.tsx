@@ -4,6 +4,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
 import { useCallback } from "react";
 import { authQueryOptions } from "@/lib/query/auth-queries";
+import { ModeToggle } from "./mode-toggle";
 import { Button } from "./ui/button";
 import { Sidebar, SidebarContent, SidebarFooter } from "./ui/sidebar";
 
@@ -22,13 +23,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar variant="floating" {...props}>
       <SidebarContent className="flex-1" />
-      <SidebarFooter>
-        <Button
-          size="icon"
-          variant="ghost"
-          className="w-full"
-          onClick={handleSignOut}
-        >
+      <SidebarFooter className="flex flex-col items-center">
+        <ModeToggle />
+        <Button size="icon" variant="ghost" onClick={handleSignOut}>
           <LogOut />
         </Button>
       </SidebarFooter>

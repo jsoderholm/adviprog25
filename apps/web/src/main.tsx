@@ -4,6 +4,7 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "./components/theme-provider";
 import { routeTree } from "./routeTree.gen";
 
 const queryClient = new QueryClient();
@@ -31,8 +32,10 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <Toaster />
+        <ThemeProvider defaultTheme="dark">
+          <RouterProvider router={router} />
+          <Toaster />
+        </ThemeProvider>
       </QueryClientProvider>
     </StrictMode>,
   );

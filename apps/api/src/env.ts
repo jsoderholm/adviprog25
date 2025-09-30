@@ -7,7 +7,7 @@ expand(
   config({
     path: path.resolve(process.cwd(), ".env"),
     quiet: true,
-  }),
+  })
 );
 
 const stringBoolean = z.coerce
@@ -41,6 +41,8 @@ const EnvSchema = z.object({
   BETTER_AUTH_URL: z.url(),
   BETTER_AUTH_SECRET: z.string(),
   RESEND_API_KEY: z.string(),
+
+  GEOCODING_API_KEY: z.string(),
 });
 
 export type Env = z.infer<typeof EnvSchema>;

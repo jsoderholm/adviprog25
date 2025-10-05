@@ -53,6 +53,9 @@ importers:
       hono-pino:
         specifier: ^0.10.2
         version: 0.10.2(hono@4.9.5)(pino@9.9.0)
+      openmeteo:
+        specifier: ^1.2.1
+        version: 1.2.1
       pg:
         specifier: ^8.16.3
         version: 8.16.3
@@ -760,6 +763,10 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@openmeteo/sdk@1.21.1':
+    resolution: {integrity: sha512-2lgioYC6/ia9QgaheLVGLqMM9ekrOEd80WAXFYXtmmXRGYPeXdgV4oycYImN6VYDo75MzNMPd7Ripbb25MYdfw==}
+    engines: {node: '>=12.0'}
 
   '@peculiar/asn1-android@2.4.0':
     resolution: {integrity: sha512-YFueREq97CLslZZBI8dKzis7jMfEHSLxM+nr0Zdx1POiXFLjqqwoY5s0F1UimdBiEw/iKlHey2m56MRDv7Jtyg==}
@@ -1839,6 +1846,9 @@ packages:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
     engines: {node: '>=8'}
 
+  flatbuffers@25.9.23:
+    resolution: {integrity: sha512-MI1qs7Lo4Syw0EOzUl0xjs2lsoeqFku44KpngfIduHBYvzm8h2+7K8YMQh1JtVVVrUvhLpNwqVi4DERegUJhPQ==}
+
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -2096,6 +2106,10 @@ packages:
 
   openapi3-ts@4.5.0:
     resolution: {integrity: sha512-jaL+HgTq2Gj5jRcfdutgRGLosCy/hT8sQf6VOy+P+g36cZOjI1iukdPnijC+4CmeRzg/jEllJUboEic2FhxhtQ==}
+
+  openmeteo@1.2.1:
+    resolution: {integrity: sha512-BNps/RuJo0tIWhBiEvThO28Df3pU6q7m77wBhuS74FkvYYmrub9+KqzBiMd6XNPhWL4tPfG0iE3tXREy+pkwiQ==}
+    engines: {node: '>=12.0'}
 
   parseley@0.12.1:
     resolution: {integrity: sha512-e6qHKe3a9HWr0oMRVDTRhKce+bRO8VGQR3NyVwcjwrbhMmFCX9KszEV35+rn4AdilFAq9VPxP/Fe1wC9Qjd2lw==}
@@ -3076,6 +3090,10 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
+  '@openmeteo/sdk@1.21.1':
+    dependencies:
+      flatbuffers: 25.9.23
+
   '@peculiar/asn1-android@2.4.0':
     dependencies:
       '@peculiar/asn1-schema': 2.4.0
@@ -4044,6 +4062,8 @@ snapshots:
     dependencies:
       to-regex-range: 5.0.1
 
+  flatbuffers@25.9.23: {}
+
   fsevents@2.3.3:
     optional: true
 
@@ -4240,6 +4260,11 @@ snapshots:
   openapi3-ts@4.5.0:
     dependencies:
       yaml: 2.8.1
+
+  openmeteo@1.2.1:
+    dependencies:
+      '@openmeteo/sdk': 1.21.1
+      flatbuffers: 25.9.23
 
   parseley@0.12.1:
     dependencies:

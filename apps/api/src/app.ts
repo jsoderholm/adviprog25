@@ -3,10 +3,15 @@ import configureOpenAPI from "./lib/configure-open-api";
 import createApp from "./lib/create-app";
 import auth from "./routes/auth";
 import index from "./routes/index.route";
+import weather from "./routes/weather/weather.route";
 
 const app = createApp();
 
-const apiRoutes = app.basePath("/api").route("/", index).route("/", auth);
+const apiRoutes = app
+  .basePath("/api")
+  .route("/", index)
+  .route("/", auth)
+  .route("/weather", weather);
 
 configureOpenAPI(apiRoutes);
 

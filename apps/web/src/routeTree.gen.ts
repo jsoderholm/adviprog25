@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedSearchresultsRouteRouteImport } from './routes/_authenticated/searchresults/route'
+import { Route as AuthenticatedLandingpageRouteRouteImport } from './routes/_authenticated/landingpage/route'
 import { Route as authSignupRouteRouteImport } from './routes/(auth)/signup/route'
 import { Route as authLoginRouteRouteImport } from './routes/(auth)/login/route'
 
@@ -25,6 +27,18 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedSearchresultsRouteRoute =
+  AuthenticatedSearchresultsRouteRouteImport.update({
+    id: '/searchresults',
+    path: '/searchresults',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedLandingpageRouteRoute =
+  AuthenticatedLandingpageRouteRouteImport.update({
+    id: '/landingpage',
+    path: '/landingpage',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const authSignupRouteRoute = authSignupRouteRouteImport.update({
   id: '/(auth)/signup',
   path: '/signup',
@@ -39,11 +53,15 @@ const authLoginRouteRoute = authLoginRouteRouteImport.update({
 export interface FileRoutesByFullPath {
   '/login': typeof authLoginRouteRoute
   '/signup': typeof authSignupRouteRoute
+  '/landingpage': typeof AuthenticatedLandingpageRouteRoute
+  '/searchresults': typeof AuthenticatedSearchresultsRouteRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof authLoginRouteRoute
   '/signup': typeof authSignupRouteRoute
+  '/landingpage': typeof AuthenticatedLandingpageRouteRoute
+  '/searchresults': typeof AuthenticatedSearchresultsRouteRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
@@ -51,18 +69,22 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/(auth)/login': typeof authLoginRouteRoute
   '/(auth)/signup': typeof authSignupRouteRoute
+  '/_authenticated/landingpage': typeof AuthenticatedLandingpageRouteRoute
+  '/_authenticated/searchresults': typeof AuthenticatedSearchresultsRouteRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/signup' | '/'
+  fullPaths: '/login' | '/signup' | '/landingpage' | '/searchresults' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/signup' | '/'
+  to: '/login' | '/signup' | '/landingpage' | '/searchresults' | '/'
   id:
     | '__root__'
     | '/_authenticated'
     | '/(auth)/login'
     | '/(auth)/signup'
+    | '/_authenticated/landingpage'
+    | '/_authenticated/searchresults'
     | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
@@ -88,6 +110,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/searchresults': {
+      id: '/_authenticated/searchresults'
+      path: '/searchresults'
+      fullPath: '/searchresults'
+      preLoaderRoute: typeof AuthenticatedSearchresultsRouteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/landingpage': {
+      id: '/_authenticated/landingpage'
+      path: '/landingpage'
+      fullPath: '/landingpage'
+      preLoaderRoute: typeof AuthenticatedLandingpageRouteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/(auth)/signup': {
       id: '/(auth)/signup'
       path: '/signup'
@@ -106,10 +142,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedLandingpageRouteRoute: typeof AuthenticatedLandingpageRouteRoute
+  AuthenticatedSearchresultsRouteRoute: typeof AuthenticatedSearchresultsRouteRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedLandingpageRouteRoute: AuthenticatedLandingpageRouteRoute,
+  AuthenticatedSearchresultsRouteRoute: AuthenticatedSearchresultsRouteRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 

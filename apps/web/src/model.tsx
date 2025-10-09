@@ -1,0 +1,65 @@
+const model = {
+  apiTestResponse: {
+    location: {
+      latitude: 59.3293,
+      longitude: 18.0686,
+      elevation: 28,
+      timezone: "Europe/Berlin",
+      timezoneAbbreviation: "GMT+2",
+      utcOffsetSeconds: 7200,
+    },
+    weather: {
+      current: {
+        time: "string",
+        relative_humidity_2m: 82,
+        apparent_temperature: 11.34,
+        wind_speed_10m: 6.82,
+        wind_direction_10m: 121,
+        precipitation: 0,
+        temperature_2m: 13.35,
+        is_day: 1,
+        wind_gusts_10m: 11.27,
+        rain: 0,
+        showers: 0,
+        snowfall: 0,
+        cloud_cover: 75,
+      },
+      hourly: {
+        time: [
+          "2025-09-30T00:00:00.000Z",
+          "2025-09-30T01:00:00.000Z",
+          "2025-09-30T02:00:00.000Z",
+        ],
+        temperature_2m: [12.3, 11.8, 11.5],
+        uv_index: [12.3, 11.8, 11.5],
+      },
+      daily: {
+        time: [
+          "2025-09-30T00:00:00.000Z",
+          "2025-10-01T00:00:00.000Z",
+          "2025-10-02T00:00:00.000Z",
+          "2025-10-03T00:00:00.000Z",
+          "2025-10-04T00:00:00.000Z",
+          "2025-10-05T00:00:00.000Z",
+          "2025-10-06T00:00:00.000Z",
+        ],
+        temperature_2m_max: [15.6, 16.2, 14.8],
+        temperature_2m_min: [8.4, 9.1, 7.8],
+        precipitation_sum: [0, 0.2, 0],
+        precipitation_hours: [0, 3, 0],
+        precipitation_probability_max: [10, 50, 20],
+        sunrise: [
+          "2025-09-30T05:45:00.000Z",
+          "2025-10-01T05:46:00.000Z",
+          "2025-10-02T05:48:00.000Z",
+        ],
+        sunset: [
+          "2025-09-30T17:45:00.000Z",
+          "2025-10-01T17:43:00.000Z",
+          "2025-10-02T17:42:00.000Z",
+        ],
+        wind_speed_10m_max: [12.3, 11.8, 11.5],
+      },
+    },
+  },
+};

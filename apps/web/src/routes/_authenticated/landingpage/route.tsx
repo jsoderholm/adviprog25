@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,25 +11,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Header } from "../-components/header";
 
 export const Route = createFileRoute("/_authenticated/landingpage")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
+  const [searchLocation, setSearchLocation] = useState("");
+
+  function handleSearch() {
+    console.log(searchLocation);
+    navigate({ to: "/searchresults" });
+  }
+
   return (
     <div className="w-full">
-      <header className="h-2/12 content-center">
-        <div className="text-7xl text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 inline-block pl-10">
-          <h2 className="italic inline-block font-bold">Globe</h2>
-          <h2 className="inline-block text-yellow-300 tracking-widest">Cast</h2>
-          <p className="text-[1.31rem] pt-2 text-primary tracking-widest font-light italic">
-            -traveling made easy
-          </p>
-        </div>
-        <div className="h-1 w-[99%] mx-auto mt-4 bg-gradient-to-r from-yellow-300 to-blue-700 rounded-full"></div>
-      </header>
-
+      <Header></Header>
       <div className="grid grid-cols-20 grid-rows-4 gap-4 p-2 pb-4 pr-4 h-10/12">
         <div className="col-span-13 col-start-1 row-span-2 gap-4">
           <Card className="bg-gradient-to-r from-gray-600 to-background border-[width-1px] h-full rounded-r-none">
@@ -42,12 +42,16 @@ function RouteComponent() {
                 <Input
                   type="city"
                   placeholder="Search..."
-                  className="rounded-none placeholder:text-primary placeholder:text-[1.13rem]"
+                  value={searchLocation}
+                  onChange={(e) => setSearchLocation(e.target.value)}
+                  className="rounded-none placeholder:text-primary placeholder:text-[1.1rem]"
                 />
                 <Button
-                  type="submit"
+                  type="button"
                   variant="default"
-                  className="rounded-none"
+                  className="rounded-none text-[1.05rem]"
+                  onClick={handleSearch}
+                  disabled={!searchLocation.trim()}
                 >
                   Search!
                 </Button>
@@ -82,7 +86,7 @@ function RouteComponent() {
         <div className="row-start-3 col-span-6 row-span-2 bg-gradient-to-r from-gray-400 to-background rounded-l-xl"></div>
         <div className="row-start-3 col-span-9 row-span-2 bg-gradient-to-r from-background to-gray-600"></div>
         <div className="col-span-7 row-span-2 bg-gradient-to-r from-background to-gray-400 rounded-r-xl"></div>
-        <div className="col-span-5 row-span-2 bg-gradient-to-r from-gray-500 to-background rounded-r-xl"></div>{" "}
+        <div className="col-span-5 row-span-2 bg-gradient-to-r from-gray-500 to-background rounded-r-xl"></div>
         {/*border-[width-1px]  */}
       </div>
     </div>

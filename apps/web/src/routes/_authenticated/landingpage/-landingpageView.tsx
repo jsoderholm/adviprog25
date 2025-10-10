@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Header } from "../-components/header";
+import { RecentCard } from "../-components/recentCard";
 
 export function LandingpageView(props: {
   isDisabled: boolean;
@@ -54,27 +55,10 @@ export function LandingpageView(props: {
               </div>
               <p className="pt-13 text-xl">Recents:</p>
               <div className="flex pt-2 gap-2">
-                <Card className="w-full bg-foreground text-background rounded-none pb-10 hover:bg-primary/90">
-                  <CardHeader>
-                    <CardTitle>Stockholm</CardTitle>
-                    <CardDescription>Sweden</CardDescription>
-                    <CardAction>ICON</CardAction>
-                  </CardHeader>
-                </Card>
-                <Card className="w-full bg-foreground text-background rounded-none hover:bg-primary/90">
-                  <CardHeader>
-                    <CardTitle>Washington</CardTitle>
-                    <CardDescription>United States</CardDescription>
-                    <CardAction>ICON</CardAction>
-                  </CardHeader>
-                </Card>
-                <Card className="w-full bg-foreground text-background rounded-none hover:bg-primary/90">
-                  <CardHeader>
-                    <CardTitle>London</CardTitle>
-                    <CardDescription>United Kingdom</CardDescription>
-                    <CardAction>ICON</CardAction>
-                  </CardHeader>
-                </Card>
+                {/* REPLACE WITH ACTUAL DATA */}
+                <RecentCard city="Stockholm" country="Sweden" icon={"ICON"} />
+                <RecentCard city="Stockholm" country="Sweden" icon={"ICON"} />
+                <RecentCard city="Stockholm" country="Sweden" icon={"ICON"} />
               </div>
             </CardContent>
           </Card>

@@ -5,6 +5,7 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "./components/theme-provider";
+import { model } from "./model";
 import { routeTree } from "./routeTree.gen";
 
 const queryClient = new QueryClient();
@@ -13,6 +14,7 @@ const router = createRouter({
   routeTree,
   context: {
     queryClient,
+    model,
   },
   defaultPreload: "intent",
   defaultPreloadStaleTime: 0,

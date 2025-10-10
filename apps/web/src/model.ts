@@ -63,3 +63,6 @@ const model = {
     },
   },
 };
+
+export { model };
+export type AppModel = typeof model;

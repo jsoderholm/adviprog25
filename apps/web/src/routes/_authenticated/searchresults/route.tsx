@@ -7,5 +7,5 @@ export const Route = createFileRoute("/_authenticated/searchresults")({
 
 function RouteComponent() {
   const { model } = Route.useRouteContext();
-  return <SearchresultsView />;
+  return <SearchresultsView locationData={model.apiTestResponse} />;
 }

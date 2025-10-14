@@ -11,10 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
-import { Route as AuthenticatedSearchresultsRouteRouteImport } from './routes/_authenticated/searchresults/route'
-import { Route as AuthenticatedLandingpageRouteRouteImport } from './routes/_authenticated/landingpage/route'
 import { Route as authSignupRouteRouteImport } from './routes/(auth)/signup/route'
 import { Route as authLoginRouteRouteImport } from './routes/(auth)/login/route'
+import { Route as AuthenticatedLocationLocationNameRouteRouteImport } from './routes/_authenticated/location/$locationName/route'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
@@ -27,18 +26,6 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedSearchresultsRouteRoute =
-  AuthenticatedSearchresultsRouteRouteImport.update({
-    id: '/searchresults',
-    path: '/searchresults',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
-const AuthenticatedLandingpageRouteRoute =
-  AuthenticatedLandingpageRouteRouteImport.update({
-    id: '/landingpage',
-    path: '/landingpage',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 const authSignupRouteRoute = authSignupRouteRouteImport.update({
   id: '/(auth)/signup',
   path: '/signup',
@@ -49,43 +36,45 @@ const authLoginRouteRoute = authLoginRouteRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedLocationLocationNameRouteRoute =
+  AuthenticatedLocationLocationNameRouteRouteImport.update({
+    id: '/location/$locationName',
+    path: '/location/$locationName',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof authLoginRouteRoute
   '/signup': typeof authSignupRouteRoute
-  '/landingpage': typeof AuthenticatedLandingpageRouteRoute
-  '/searchresults': typeof AuthenticatedSearchresultsRouteRoute
   '/': typeof AuthenticatedIndexRoute
+  '/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof authLoginRouteRoute
   '/signup': typeof authSignupRouteRoute
-  '/landingpage': typeof AuthenticatedLandingpageRouteRoute
-  '/searchresults': typeof AuthenticatedSearchresultsRouteRoute
   '/': typeof AuthenticatedIndexRoute
+  '/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/(auth)/login': typeof authLoginRouteRoute
   '/(auth)/signup': typeof authSignupRouteRoute
-  '/_authenticated/landingpage': typeof AuthenticatedLandingpageRouteRoute
-  '/_authenticated/searchresults': typeof AuthenticatedSearchresultsRouteRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/signup' | '/landingpage' | '/searchresults' | '/'
+  fullPaths: '/login' | '/signup' | '/' | '/location/$locationName'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/signup' | '/landingpage' | '/searchresults' | '/'
+  to: '/login' | '/signup' | '/' | '/location/$locationName'
   id:
     | '__root__'
     | '/_authenticated'
     | '/(auth)/login'
     | '/(auth)/signup'
-    | '/_authenticated/landingpage'
-    | '/_authenticated/searchresults'
     | '/_authenticated/'
+    | '/_authenticated/location/$locationName'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -110,20 +99,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/searchresults': {
-      id: '/_authenticated/searchresults'
-      path: '/searchresults'
-      fullPath: '/searchresults'
-      preLoaderRoute: typeof AuthenticatedSearchresultsRouteRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/landingpage': {
-      id: '/_authenticated/landingpage'
-      path: '/landingpage'
-      fullPath: '/landingpage'
-      preLoaderRoute: typeof AuthenticatedLandingpageRouteRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/(auth)/signup': {
       id: '/(auth)/signup'
       path: '/signup'
@@ -138,19 +113,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/location/$locationName': {
+      id: '/_authenticated/location/$locationName'
+      path: '/location/$locationName'
+      fullPath: '/location/$locationName'
+      preLoaderRoute: typeof AuthenticatedLocationLocationNameRouteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedLandingpageRouteRoute: typeof AuthenticatedLandingpageRouteRoute
-  AuthenticatedSearchresultsRouteRoute: typeof AuthenticatedSearchresultsRouteRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedLocationLocationNameRouteRoute: typeof AuthenticatedLocationLocationNameRouteRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedLandingpageRouteRoute: AuthenticatedLandingpageRouteRoute,
-  AuthenticatedSearchresultsRouteRoute: AuthenticatedSearchresultsRouteRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedLocationLocationNameRouteRoute:
+    AuthenticatedLocationLocationNameRouteRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

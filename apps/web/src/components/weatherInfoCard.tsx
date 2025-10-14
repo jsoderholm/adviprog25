@@ -94,11 +94,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import type { AppModel } from "@/model";
 
 export function WeatherInfoCard(props: {
-  dailyData: AppModel["apiTestResponse"]["weather"]["daily"];
-  hourlyData: AppModel["apiTestResponse"]["weather"]["hourly"];
+  dailyData: any; // TODO
+  hourlyData: any; // TODO
 }) {
   function formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -130,7 +129,7 @@ export function WeatherInfoCard(props: {
           <td className="p-1 text-center">
             {Math.round(props.hourlyData.uv_index[i])}
           </td>
-        </tr>,
+        </tr>
       );
     }
     return rows;
@@ -178,7 +177,7 @@ export function WeatherInfoCard(props: {
               <tbody>{hourlyDataMap(i)}</tbody>
             </table>
           </AccordionContent>
-        </AccordionItem>,
+        </AccordionItem>
       );
     }
     return items;

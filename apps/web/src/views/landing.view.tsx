@@ -1,25 +1,21 @@
+import { RecentCard } from "@/components/recentCard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Header } from "../-components/header";
-import { RecentCard } from "../-components/recentCard";
 
-export function LandingpageView(props: {
+type LandingPageViewProps = {
   isDisabled: boolean;
-  inputChange: (value: string) => void;
-  buttonPress: () => void;
-}) {
-  function handleSearch() {
-    props.buttonPress();
-  }
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearch: () => void;
+};
 
-  function handleInputChange(event: { target: { value: string } }) {
-    props.inputChange(event.target.value);
-  }
-
+export const LandingPageView = ({
+  isDisabled,
+  handleInputChange,
+  handleSearch,
+}: LandingPageViewProps) => {
   return (
     <div className="w-full">
-      <Header></Header>
       <div className="grid grid-cols-20 grid-rows-4 gap-4 p-2 pb-4 pr-4 h-10/12">
         <div className="col-span-13 col-start-1 row-span-2 gap-4">
           <Card className="bg-gradient-to-r from-gray-600 to-background border-[width-1px] h-full rounded-r-none">
@@ -41,7 +37,7 @@ export function LandingpageView(props: {
                   variant="default"
                   className="rounded-none text-[1.05rem]"
                   onClick={handleSearch}
-                  disabled={props.isDisabled}
+                  disabled={isDisabled}
                 >
                   Search!
                 </Button>
@@ -64,4 +60,4 @@ export function LandingpageView(props: {
       </div>
     </div>
   );
-}
+};

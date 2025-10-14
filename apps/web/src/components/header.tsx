@@ -1,4 +1,4 @@
-export function Header() {
+export const Header = () => {
   return (
     <header className="h-2/12 content-center">
       <div className="text-7xl text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 inline-block pl-10">

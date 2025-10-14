@@ -1,8 +1,9 @@
 import { WeatherInfoCard } from "@/components/weatherInfoCard";
+import type { WeatherData } from "@/models/location.model";
 
 type LocationViewProps = {
   locationName: string;
-  locationData: any; // TODO
+  locationData: WeatherData;
 };
 
 export const LocationView = ({

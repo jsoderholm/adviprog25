@@ -57,7 +57,7 @@ export function WeatherInfoCard(props: {
           value={String(i)}
           className="border-b border-gray-700"
         >
-          <AccordionTrigger className="grid grid-cols-6 gap-2 text-[20px] px-3 py-2 text-gray-200 hover:bg-gray-800 data-[state=open]:bg-gray-800 rounded-none">
+          <AccordionTrigger className="grid grid-cols-6 gap-2 text-[20px] px-3 py-2 text-gray-200 hover:border hover:border-yellow-300 data-[state=open]:border data-[state=open]:border-yellow-300 rounded-none hover:cursor-pointer">
             <span>{formatDate(props.dailyData.time[i])}</span>
             <span className="text-center">
               {Math.round(props.dailyData.temperature_2m_max[i])}° /{" "}
@@ -77,7 +77,7 @@ export function WeatherInfoCard(props: {
               {extractHourMinute(props.dailyData.sunset[i])}
             </span>
           </AccordionTrigger>
-          <AccordionContent className="px-3 py-2 bg-primary/5 border-t border-gray-700">
+          <AccordionContent className="px-3 py-2 bg-primary/1 border-t border-gray-700">
             <table className="w-full text-gray-300 text-[20px]">
               <thead>
                 <tr className="border-b border-gray-700 text-gray-400 text-[20px]">

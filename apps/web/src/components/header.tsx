@@ -6,7 +6,7 @@ export const Header = ({ handleLogoClick }: HeaderProps) => {
   return (
     <header className="content-center p-2 shrink-0">
       <button
-        className="text-7xl text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 inline-block pl-10"
+        className="text-7xl text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 inline-block pl-10 hover:cursor-pointer"
         type="button"
         onClick={handleLogoClick}
       >

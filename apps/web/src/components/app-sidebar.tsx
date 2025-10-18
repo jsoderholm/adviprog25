@@ -1,12 +1,12 @@
 import { authClient } from "@repo/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Heart, HomeIcon, LogOut } from "lucide-react";
+import { Heart, HomeIcon } from "lucide-react";
 import { useCallback } from "react";
 import { authQueryOptions } from "@/lib/query/auth-queries";
 import { Icons } from "./icons";
+import { LogoutButton } from "./log-out-button";
 import { ModeToggle } from "./mode-toggle";
-import { Button } from "./ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -56,9 +56,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter className="flex flex-col items-center">
         <ModeToggle />
-        <Button size="icon" variant="ghost" onClick={handleSignOut}>
-          <LogOut />
-        </Button>
+        <LogoutButton handleSignOut={handleSignOut} />
       </SidebarFooter>
     </Sidebar>
   );

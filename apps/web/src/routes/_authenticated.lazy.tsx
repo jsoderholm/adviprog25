@@ -7,8 +7,8 @@ export const Route = createLazyFileRoute("/_authenticated")({
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "6rem",
-          "--sidebar-width-mobile": "6rem",
+          "--sidebar-width": "5rem",
+          "--sidebar-width-mobile": "5rem",
         } as React.CSSProperties
       }
     >

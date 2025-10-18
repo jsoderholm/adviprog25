@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedFavoritesRouteRouteImport } from './routes/_authenticated/favorites/route'
 import { Route as authSignupRouteRouteImport } from './routes/(auth)/signup/route'
 import { Route as authLoginRouteRouteImport } from './routes/(auth)/login/route'
 
@@ -25,6 +26,12 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedFavoritesRouteRoute =
+  AuthenticatedFavoritesRouteRouteImport.update({
+    id: '/favorites',
+    path: '/favorites',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const authSignupRouteRoute = authSignupRouteRouteImport.update({
   id: '/(auth)/signup',
   path: '/signup',
@@ -39,11 +46,13 @@ const authLoginRouteRoute = authLoginRouteRouteImport.update({
 export interface FileRoutesByFullPath {
   '/login': typeof authLoginRouteRoute
   '/signup': typeof authSignupRouteRoute
+  '/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof authLoginRouteRoute
   '/signup': typeof authSignupRouteRoute
+  '/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
@@ -51,18 +60,20 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/(auth)/login': typeof authLoginRouteRoute
   '/(auth)/signup': typeof authSignupRouteRoute
+  '/_authenticated/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/signup' | '/'
+  fullPaths: '/login' | '/signup' | '/favorites' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/signup' | '/'
+  to: '/login' | '/signup' | '/favorites' | '/'
   id:
     | '__root__'
     | '/_authenticated'
     | '/(auth)/login'
     | '/(auth)/signup'
+    | '/_authenticated/favorites'
     | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
@@ -88,6 +99,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/favorites': {
+      id: '/_authenticated/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof AuthenticatedFavoritesRouteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/(auth)/signup': {
       id: '/(auth)/signup'
       path: '/signup'
@@ -106,10 +124,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedFavoritesRouteRoute: typeof AuthenticatedFavoritesRouteRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedFavoritesRouteRoute: AuthenticatedFavoritesRouteRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 

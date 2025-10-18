@@ -1,0 +1,1 @@
+ALTER TABLE "favorites" ADD CONSTRAINT "favorites_place_id_unique" UNIQUE("place_id");

@@ -29,6 +29,13 @@
       "when": 1760807685124,
       "tag": "0003_unknown_iron_monger",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1760807829715,
+      "tag": "0004_shiny_power_man",
+      "breakpoints": true
     }
   ]
 }

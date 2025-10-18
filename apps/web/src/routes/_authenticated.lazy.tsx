@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-router";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Header } from "@/components/header";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 export const Route = createLazyFileRoute("/_authenticated")({
   component: () => {
@@ -25,12 +25,14 @@ export const Route = createLazyFileRoute("/_authenticated")({
         }
       >
         <AppSidebar />
-        <div className="w-full flex flex-col h-full">
-          <Header handleLogoClick={handleLogoClick} />
-          <main>
-            <Outlet />
-          </main>
-        </div>
+        <SidebarInset className="m-2">
+          <div className="w-full flex flex-col h-full">
+            <Header handleLogoClick={handleLogoClick} />
+            <main>
+              <Outlet />
+            </main>
+          </div>
+        </SidebarInset>
       </SidebarProvider>
     );
   },

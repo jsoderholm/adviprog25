@@ -2,8 +2,8 @@ import { createRoute } from "@hono/zod-openapi";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent } from "stoker/openapi/helpers";
 import { createMessageObjectSchema } from "stoker/openapi/schemas";
-import { createRouter } from "../../lib/create-app";
 import { weatherService } from "../../dependencies";
+import { createRouter } from "../../lib/create-app";
 import { ParamsSchema, WeatherResponseSchema } from "./weather.schemas";
 
 const router = createRouter().openapi(
@@ -17,13 +17,13 @@ const router = createRouter().openapi(
     responses: {
       [HttpStatusCodes.OK]: jsonContent(
         WeatherResponseSchema,
-        "Weather data for the given location"
+        "Weather data for the given location",
       ),
       [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
         createMessageObjectSchema(
-          "Could not retrieve weather data for the given location"
+          "Could not retrieve weather data for the given location",
         ),
-        "Failure to retrieve weather data"
+        "Failure to retrieve weather data",
       ),
     },
   }),
@@ -35,11 +35,11 @@ const router = createRouter().openapi(
         {
           message: "Could not retrieve weather data for the given location",
         },
-        HttpStatusCodes.INTERNAL_SERVER_ERROR
+        HttpStatusCodes.INTERNAL_SERVER_ERROR,
       );
     }
     return c.json(data, HttpStatusCodes.OK);
-  }
+  },
 );
 
 export default router;

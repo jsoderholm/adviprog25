@@ -1,4 +1,3 @@
-import { Icon } from "lucide-react";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -22,12 +21,6 @@ type CurrentWeatherProps = {
 };
 
 export function CurrentWeatherCard(props: CurrentWeatherProps) {
-  const formattedDate = new Date(props.date).toLocaleString("en-EN", {
-    weekday: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
   function formatDate(): string {
     const date = new Date(props.date);
     const options: Intl.DateTimeFormatOptions = {

@@ -10,6 +10,7 @@ import { defaultHook } from "stoker/openapi";
 import type { auth } from "../lib/auth";
 import { authMiddleware } from "../middlewares/auth";
 import { pinoLogger } from "../middlewares/pino-logger";
+import { cors } from "hono/cors";
 
 export interface AppBindings {
   Variables: {
@@ -39,6 +40,7 @@ export default function createApp() {
     .use(requestId())
     .use(serveEmojiFavicon("☁️"))
     .use(pinoLogger())
+    .use("*", cors())
     .use(authMiddleware);
   app.notFound(notFound);
   app.onError(onError);

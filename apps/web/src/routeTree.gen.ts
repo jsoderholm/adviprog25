@@ -14,6 +14,7 @@ import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedFavoritesRouteRouteImport } from './routes/_authenticated/favorites/route'
 import { Route as authSignupRouteRouteImport } from './routes/(auth)/signup/route'
 import { Route as authLoginRouteRouteImport } from './routes/(auth)/login/route'
+import { Route as AuthenticatedLocationLocationNameRouteRouteImport } from './routes/_authenticated/location/$locationName/route'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
@@ -42,18 +43,26 @@ const authLoginRouteRoute = authLoginRouteRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedLocationLocationNameRouteRoute =
+  AuthenticatedLocationLocationNameRouteRouteImport.update({
+    id: '/location/$locationName',
+    path: '/location/$locationName',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof authLoginRouteRoute
   '/signup': typeof authSignupRouteRoute
   '/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/': typeof AuthenticatedIndexRoute
+  '/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof authLoginRouteRoute
   '/signup': typeof authSignupRouteRoute
   '/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/': typeof AuthenticatedIndexRoute
+  '/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,12 +71,18 @@ export interface FileRoutesById {
   '/(auth)/signup': typeof authSignupRouteRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/signup' | '/favorites' | '/'
+  fullPaths:
+    | '/login'
+    | '/signup'
+    | '/favorites'
+    | '/'
+    | '/location/$locationName'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/signup' | '/favorites' | '/'
+  to: '/login' | '/signup' | '/favorites' | '/' | '/location/$locationName'
   id:
     | '__root__'
     | '/_authenticated'
@@ -75,6 +90,7 @@ export interface FileRouteTypes {
     | '/(auth)/signup'
     | '/_authenticated/favorites'
     | '/_authenticated/'
+    | '/_authenticated/location/$locationName'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -120,17 +136,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/location/$locationName': {
+      id: '/_authenticated/location/$locationName'
+      path: '/location/$locationName'
+      fullPath: '/location/$locationName'
+      preLoaderRoute: typeof AuthenticatedLocationLocationNameRouteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
   AuthenticatedFavoritesRouteRoute: typeof AuthenticatedFavoritesRouteRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedLocationLocationNameRouteRoute: typeof AuthenticatedLocationLocationNameRouteRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedFavoritesRouteRoute: AuthenticatedFavoritesRouteRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedLocationLocationNameRouteRoute:
+    AuthenticatedLocationLocationNameRouteRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

@@ -1,21 +1,39 @@
-import { createLazyFileRoute, Outlet } from "@tanstack/react-router";
+import {
+  createLazyFileRoute,
+  Outlet,
+  useNavigate,
+} from "@tanstack/react-router";
 import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Header } from "@/components/header";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 export const Route = createLazyFileRoute("/_authenticated")({
-  component: () => (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "5rem",
-          "--sidebar-width-mobile": "5rem",
-        } as React.CSSProperties
-      }
-    >
-      <AppSidebar />
-      <SidebarInset className="m-2">
-        <Outlet />
-      </SidebarInset>
-    </SidebarProvider>
-  ),
+  component: () => {
+    const navigate = useNavigate();
+
+    const handleLogoClick = () => {
+      navigate({ to: "/" });
+    };
+
+    return (
+      <SidebarProvider
+        style={
+          {
+            "--sidebar-width": "6rem",
+            "--sidebar-width-mobile": "6rem",
+          } as React.CSSProperties
+        }
+      >
+        <AppSidebar />
+        <SidebarInset className="m-2">
+          <div className="w-full flex flex-col h-full">
+            <Header handleLogoClick={handleLogoClick} />
+            <main>
+              <Outlet />
+            </main>
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
+    );
+  },
 });

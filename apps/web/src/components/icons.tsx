@@ -22,6 +22,88 @@ export const Icons = {
       />
     </svg>
   ),
+  home: (props: IconProps) => (
+    <svg
+      width="50"
+      height="50"
+      viewBox="0 0 1.575 1.575"
+      {...props}
+      aria-label="Home Icon"
+      role="img"
+    >
+      <path
+        fill="currentColor"
+        className="clr-i-outline clr-i-outline-path-1"
+        d="m1.475 0.756 -0.656 -0.656a0.044 0.044 0 0 0 -0.062 0l-0.656 0.656a0.044 0.044 0 0 0 0.062 0.062L0.787 0.193l0.625 0.626a0.044 0.044 0 0 0 0.062 -0.062Z"
+      />
+      <path
+        fill="currentColor"
+        className="clr-i-outline clr-i-outline-path-2"
+        d="M1.225 1.4h-0.219V0.962H0.569v0.438H0.35V0.787l-0.087 0.087v0.525a0.087 0.087 0 0 0 0.087 0.087h0.306V1.05h0.262v0.438h0.306a0.087 0.087 0 0 0 0.087 -0.087V0.865l-0.087 -0.087Z"
+      />
+      <path fill="none" d="M0 0h1.575v1.575H0z" />
+    </svg>
+  ),
+  homeSelected: (props: IconProps) => (
+    <svg
+      width="50"
+      height="50"
+      viewBox="0 0 2.025 2.025"
+      {...props}
+      aria-label="Home Selected Icon"
+      role="img"
+    >
+      <path
+        fill="currentColor"
+        className="clr-i-solid clr-i-solid-path-1"
+        d="M1.856 1.069a.06.06 0 0 1-.04-.016L1.012.248l-.803.804a.056.056 0 0 1-.08-.079L.973.129a.056.056 0 0 1 .079 0l.844.844a.056.056 0 0 1-.04.096"
+      />
+      <path
+        fill="currentColor"
+        className="clr-i-solid clr-i-solid-path-2"
+        d="m1.012.438-.674.677V1.8a.113.113 0 0 0 .113.113h.394V1.35h.338v.563h.394A.113.113 0 0 0 1.69 1.8v-.688Z"
+      />
+      <path d="M0 0h2.025v2.025H0z" fill="none" />
+    </svg>
+  ),
+  favorite: (props: IconProps) => (
+    <svg
+      width="50"
+      height="50"
+      viewBox="0 0 0.938 0.938"
+      fill="none"
+      {...props}
+      aria-label="Favorite City Icon"
+      role="img"
+    >
+      <path
+        d="m.469.752-.27.142.051-.3L.031.38.333.336.469.063l.135.274.302.044-.218.213.052.301z"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width=".063"
+      />
+    </svg>
+  ),
+  favoriteSelected: (props: IconProps) => (
+    <svg
+      width="50"
+      height="50"
+      viewBox="0 0 0.938 0.938"
+      fill="currentColor"
+      {...props}
+      aria-label="Favorite City Icon"
+      role="img"
+    >
+      <path
+        d="m.469.752-.27.142.051-.3L.031.38.333.336.469.063l.135.274.302.044-.218.213.052.301z"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width=".063"
+      />
+    </svg>
+  ),
   logo: (props: IconProps) => (
     <svg
       width="24"

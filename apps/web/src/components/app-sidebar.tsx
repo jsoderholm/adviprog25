@@ -1,7 +1,7 @@
 import { authClient } from "@repo/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Heart, HomeIcon } from "lucide-react";
+import { Heart, HomeIcon, User } from "lucide-react";
 import { useCallback } from "react";
 import { authQueryOptions } from "@/lib/query/auth-queries";
 import { Icons } from "./icons";
@@ -49,12 +49,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarItem icon={<HomeIcon />} title="Home" to="/" />
-              <SidebarItem icon={<Heart />} title="Favorites" to="/favorites" />
+              <SidebarItem icon={<Heart />} title="Favorites" to="/favorites" />   
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="flex flex-col items-center">
+        <SidebarItem icon={<User />} title="Account" to="/account" />
         <ModeToggle />
         <LogoutButton handleSignOut={handleSignOut} />
       </SidebarFooter>

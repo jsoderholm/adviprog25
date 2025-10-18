@@ -14,6 +14,7 @@ import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedFavoritesRouteRouteImport } from './routes/_authenticated/favorites/route'
 import { Route as authSignupRouteRouteImport } from './routes/(auth)/signup/route'
 import { Route as authLoginRouteRouteImport } from './routes/(auth)/login/route'
+import { Route as AuthenticatedAccountAccountRouteImport } from './routes/_authenticated/account/account'
 import { Route as AuthenticatedLocationLocationNameRouteRouteImport } from './routes/_authenticated/location/$locationName/route'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
@@ -45,6 +46,12 @@ const authLoginRouteRoute = authLoginRouteRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAccountAccountRoute =
+  AuthenticatedAccountAccountRouteImport.update({
+    id: '/account/account',
+    path: '/account/account',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedLocationLocationNameRouteRoute =
   AuthenticatedLocationLocationNameRouteRouteImport.update({
     id: '/location/$locationName',
@@ -62,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/': typeof AuthenticatedIndexRoute
   '/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
+  '/account/account': typeof AuthenticatedAccountAccountRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof authLoginRouteRoute
@@ -69,6 +77,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/': typeof AuthenticatedIndexRoute
   '/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
+  '/account/account': typeof AuthenticatedAccountAccountRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -78,6 +87,7 @@ export interface FileRoutesById {
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
+  '/_authenticated/account/account': typeof AuthenticatedAccountAccountRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -87,8 +97,15 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/'
     | '/location/$locationName'
+    | '/account/account'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/signup' | '/favorites' | '/' | '/location/$locationName'
+  to:
+    | '/login'
+    | '/signup'
+    | '/favorites'
+    | '/'
+    | '/location/$locationName'
+    | '/account/account'
   id:
     | '__root__'
     | '/_authenticated'
@@ -97,6 +114,7 @@ export interface FileRouteTypes {
     | '/_authenticated/favorites'
     | '/_authenticated/'
     | '/_authenticated/location/$locationName'
+    | '/_authenticated/account/account'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -142,6 +160,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/account/account': {
+      id: '/_authenticated/account/account'
+      path: '/account/account'
+      fullPath: '/account/account'
+      preLoaderRoute: typeof AuthenticatedAccountAccountRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/location/$locationName': {
       id: '/_authenticated/location/$locationName'
       path: '/location/$locationName'
@@ -156,6 +181,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedFavoritesRouteRoute: typeof AuthenticatedFavoritesRouteRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedLocationLocationNameRouteRoute: typeof AuthenticatedLocationLocationNameRouteRoute
+  AuthenticatedAccountAccountRoute: typeof AuthenticatedAccountAccountRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
@@ -163,6 +189,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedLocationLocationNameRouteRoute:
     AuthenticatedLocationLocationNameRouteRoute,
+  AuthenticatedAccountAccountRoute: AuthenticatedAccountAccountRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

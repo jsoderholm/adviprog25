@@ -4,6 +4,7 @@ import createApp from "./lib/create-app";
 import auth from "./routes/auth";
 import index from "./routes/index.route";
 import weather from "./routes/weather/weather.route";
+import geocode from "./routes/geocode/geocode.route";
 
 const app = createApp();
 
@@ -11,7 +12,8 @@ const apiRoutes = app
   .basePath("/api")
   .route("/", index)
   .route("/", auth)
-  .route("/weather", weather);
+  .route("/weather", weather)
+  .route("/geocode", geocode);
 
 configureOpenAPI(apiRoutes);
 

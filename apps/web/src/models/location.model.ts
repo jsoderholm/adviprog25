@@ -1,3 +1,4 @@
+import { api } from "@repo/api";
 import { useQuery } from "@tanstack/react-query";
 
 export type WeatherData = {
@@ -44,15 +45,14 @@ export type WeatherData = {
   };
 };
 
-export function useWeather(searchString: string) {
+export function useWeather(lat: string, lon: string) {
   return useQuery<WeatherData, Error>({
-    queryKey: ["location", searchString],
+    queryKey: ["weather", lat, lon],
     queryFn: async () => {
-      const res = await fetch(
-        `http://localhost:3000/api/weather?search=${searchString}`,
-        { method: "GET" }
-      );
-      if (!res.ok) throw new Error("Failed to fetch location");
+      const res = await api.weather.$get({
+        query: { lat: lat, lon: lon },
+      });
+      if (!res.ok) throw new Error("Failed to fetch weather data for location");
       return res.json() as Promise<WeatherData>;
     },
   });

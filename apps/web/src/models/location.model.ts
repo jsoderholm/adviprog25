@@ -1,5 +1,5 @@
 import { api } from "@repo/api";
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 
 export type WeatherData = {
   location: {
@@ -45,8 +45,8 @@ export type WeatherData = {
   };
 };
 
-export function useWeather(lat: string, lon: string) {
-  return useQuery<WeatherData, Error>({
+export const weatherQueryOptions = (lat: string, lon: string) =>
+  queryOptions({
     queryKey: ["weather", lat, lon],
     queryFn: async () => {
       const res = await api.weather.$get({
@@ -56,4 +56,3 @@ export function useWeather(lat: string, lon: string) {
       return res.json() as Promise<WeatherData>;
     },
   });
-}

@@ -1,4 +1,4 @@
-import { RecentCard } from "@/components/recentCard";
+import { RecentCard } from "@/components/recent-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Command,

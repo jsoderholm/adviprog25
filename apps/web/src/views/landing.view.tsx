@@ -1,13 +1,13 @@
 import { RecentCard } from "@/components/recentCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
   Command,
-  CommandItem,
-  CommandList,
   CommandEmpty,
   CommandGroup,
+  CommandItem,
+  CommandList,
 } from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
 import type { LocationsData } from "@/models/landing.model";
 
 type LandingPageViewProps = {
@@ -57,19 +57,15 @@ export const LandingPageView = ({
                       )}
                       {!isLoading && (
                         <CommandGroup>
-                          {suggestions.map((suggestion, i) => (
+                          {suggestions.map((s) => (
                             <CommandItem
-                              key={i}
+                              key={s.place_id}
                               onSelect={() =>
-                                handleSelect(
-                                  suggestion.display_name,
-                                  suggestion.lat,
-                                  suggestion.lon
-                                )
+                                handleSelect(s.display_name, s.lat, s.lon)
                               }
                               className="cursor-pointer"
                             >
-                              {suggestion.display_name}
+                              {s.display_name}
                             </CommandItem>
                           ))}
                           <CommandEmpty>No results found.</CommandEmpty>

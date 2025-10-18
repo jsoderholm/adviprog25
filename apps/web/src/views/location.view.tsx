@@ -13,7 +13,7 @@ type LocationViewProps = {
   handleFavoriteChange: () => void;
   handleHomeChange: () => void;
 };
-//bg-gradient-to-l from-blue-500 via-sky-500 to-blue-700
+
 export const LocationView = (props: LocationViewProps) => {
   return (
     <div className="w-full flex flex-col flex-1 overflow-hidden p-4 pl-2 gap-4 justify-center items-center">
@@ -47,15 +47,10 @@ export const LocationView = (props: LocationViewProps) => {
 
       <div className="flex-1 overflow-y-auto rounded-xl w-14/20">
         <WeatherInfoCard
-          dailyData={props.locationData.weather.daily}
-          hourlyData={props.locationData.weather.hourly}
+          daily={props.locationData.weather.daily}
+          hourly={props.locationData.weather.hourly}
         />
       </div>
     </div>
   );
 };
-
-// <div
-//   className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,white_1%,transparent_40%),radial-gradient(circle_at_70%_60%,white_1%,transparent_45%)]
-//  opacity-50 brightness-60"
-// ></div>;

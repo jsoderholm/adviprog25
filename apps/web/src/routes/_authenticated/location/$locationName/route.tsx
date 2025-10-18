@@ -1,5 +1,5 @@
-import { LocationPresenter } from "@/presenters/location.presenter";
 import { createFileRoute } from "@tanstack/react-router";
+import { LocationPresenter } from "@/presenters/location.presenter";
 
 type LocationSearch = {
   lat: string;

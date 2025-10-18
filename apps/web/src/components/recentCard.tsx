@@ -6,17 +6,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export function RecentCard(props: {
+type RecentCardProps = {
   city: string;
   country: string;
-  icon: any; // icon type should be changed once its clear what it is
-}) {
+  icon: React.ReactNode;
+};
+
+export function RecentCard({ city, country, icon }: RecentCardProps) {
   return (
     <Card className="w-full bg-foreground text-background rounded-none pb-10 hover:bg-primary/90">
       <CardHeader>
-        <CardTitle>{props.city}</CardTitle>
-        <CardDescription>{props.country}</CardDescription>
-        <CardAction>{props.icon}</CardAction>
+        <CardTitle>{city}</CardTitle>
+        <CardDescription>{country}</CardDescription>
+        <CardAction>{icon}</CardAction>
       </CardHeader>
     </Card>
   );

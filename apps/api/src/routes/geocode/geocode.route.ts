@@ -4,7 +4,7 @@ import { jsonContent } from "stoker/openapi/helpers";
 import { createMessageObjectSchema } from "stoker/openapi/schemas";
 import { geocodeService } from "../../dependencies";
 import { createRouter } from "../../lib/create-app";
-import { ParamsSchema, GeocodeResponseSchema } from "./geocode.schemas";
+import { GeocodeResponseSchema, ParamsSchema } from "./geocode.schemas";
 
 const router = createRouter().openapi(
   createRoute({
@@ -17,13 +17,13 @@ const router = createRouter().openapi(
     responses: {
       [HttpStatusCodes.OK]: jsonContent(
         GeocodeResponseSchema,
-        "Geocode data for the given location"
+        "Geocode data for the given location",
       ),
       [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
         createMessageObjectSchema(
-          "Could not retrieve geocode data for the given location"
+          "Could not retrieve geocode data for the given location",
         ),
-        "Failure to retrieve geocode data"
+        "Failure to retrieve geocode data",
       ),
     },
   }),
@@ -35,11 +35,11 @@ const router = createRouter().openapi(
         {
           message: "Could not retrieve geocode data for the given location",
         },
-        HttpStatusCodes.INTERNAL_SERVER_ERROR
+        HttpStatusCodes.INTERNAL_SERVER_ERROR,
       );
     }
     return c.json(data, HttpStatusCodes.OK);
-  }
+  },
 );
 
 export default router;

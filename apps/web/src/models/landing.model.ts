@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
 import { api } from "@repo/api";
+import { useQuery } from "@tanstack/react-query";
 
 export type LocationsData = [
   {
@@ -14,7 +14,7 @@ export type LocationsData = [
     class: string;
     type: string;
     importance: number;
-  }
+  },
 ];
 export function useSuggestedLocations(searchString: string, enabled = true) {
   return useQuery<LocationsData, Error>({

@@ -1,12 +1,14 @@
 import { z } from "@hono/zod-openapi";
 
 export const ParamsSchema = z.object({
-  search: z
+  lat: z
     .string()
-    .min(1)
-    .max(100)
-    .describe("Location to search for")
-    .openapi({ example: "Stockholm" }),
+    .describe("Latitude of location to get weather for")
+    .openapi({ example: "56.3293" }),
+  lon: z
+    .string()
+    .describe("Longitude of location to get weather for")
+    .openapi({ example: "12.1241" }),
 });
 
 export const WeatherResponseSchema = z

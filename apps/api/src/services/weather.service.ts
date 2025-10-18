@@ -1,18 +1,11 @@
 import { fetchWeatherApi } from "openmeteo";
-import type GeocodeService from "./geocode.service";
 
 class WeatherService {
-  private geocodeService: GeocodeService;
-
-  constructor(geocodeService: GeocodeService) {
-    this.geocodeService = geocodeService;
-  }
-
   private makeArray = (float32Array: Float32Array | null) => {
     return float32Array ? Array.from(float32Array) : null;
   };
 
-  private getWeather = async (lat: number, lon: number) => {
+  public getWeatherFromCoordinates = async (lat: number, lon: number) => {
     const params = {
       latitude: lat,
       longitude: lon,
@@ -91,7 +84,7 @@ class WeatherService {
         time: [
           ...Array(
             (Number(hourly.timeEnd()) - Number(hourly.time())) /
-              hourly.interval(),
+              hourly.interval()
           ),
         ].map(
           (_, i) =>
@@ -99,8 +92,8 @@ class WeatherService {
               (Number(hourly.time()) +
                 i * hourly.interval() +
                 utcOffsetSeconds) *
-                1000,
-            ),
+                1000
+            )
         ),
         temperature_2m: this.makeArray(hourly.variables(0)!.valuesArray()),
         uv_index: this.makeArray(hourly.variables(1)!.valuesArray()),
@@ -108,51 +101,37 @@ class WeatherService {
       daily: {
         time: [
           ...Array(
-            (Number(daily.timeEnd()) - Number(daily.time())) / daily.interval(),
+            (Number(daily.timeEnd()) - Number(daily.time())) / daily.interval()
           ),
         ].map(
           (_, i) =>
             new Date(
               (Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) *
-                1000,
-            ),
+                1000
+            )
         ),
         temperature_2m_max: this.makeArray(daily.variables(0)!.valuesArray()),
         temperature_2m_min: this.makeArray(daily.variables(1)!.valuesArray()),
         precipitation_sum: this.makeArray(daily.variables(2)!.valuesArray()),
         precipitation_hours: this.makeArray(daily.variables(3)!.valuesArray()),
         precipitation_probability_max: this.makeArray(
-          daily.variables(4)!.valuesArray(),
+          daily.variables(4)!.valuesArray()
         ),
         // Map Int64 values to according structure
         sunrise: [...Array(sunrise.valuesInt64Length())].map(
           (_, i) =>
-            new Date(
-              (Number(sunrise.valuesInt64(i)) + utcOffsetSeconds) * 1000,
-            ),
+            new Date((Number(sunrise.valuesInt64(i)) + utcOffsetSeconds) * 1000)
         ),
         // Map Int64 values to according structure
         sunset: [...Array(sunset.valuesInt64Length())].map(
           (_, i) =>
-            new Date((Number(sunset.valuesInt64(i)) + utcOffsetSeconds) * 1000),
+            new Date((Number(sunset.valuesInt64(i)) + utcOffsetSeconds) * 1000)
         ),
         wind_speed_10m_max: this.makeArray(daily.variables(7)!.valuesArray()),
       },
     };
     return { location: locationData, weather: weatherData };
   };
-
-  public async getWeatherForSearchQuery(searchQuery: string) {
-    const coordinates =
-      await this.geocodeService.coordinatesFromText(searchQuery);
-    if (!coordinates) {
-      console.error(
-        "Geocode API failure: Could not get coordinates for the given search query",
-      );
-      return null;
-    }
-    return await this.getWeather(coordinates.lat, coordinates.lon);
-  }
 }
 
 export default WeatherService;

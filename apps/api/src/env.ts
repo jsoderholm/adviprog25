@@ -7,7 +7,7 @@ expand(
   config({
     path: path.resolve(process.cwd(), ".env"),
     quiet: true,
-  })
+  }),
 );
 
 const stringBoolean = z.coerce

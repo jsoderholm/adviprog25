@@ -12,9 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedFavoritesRouteRouteImport } from './routes/_authenticated/favorites/route'
+import { Route as AuthenticatedAccountRouteRouteImport } from './routes/_authenticated/account/route'
 import { Route as authSignupRouteRouteImport } from './routes/(auth)/signup/route'
 import { Route as authLoginRouteRouteImport } from './routes/(auth)/login/route'
-import { Route as AuthenticatedAccountAccountRouteImport } from './routes/_authenticated/account/account'
 import { Route as AuthenticatedLocationLocationNameRouteRouteImport } from './routes/_authenticated/location/$locationName/route'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
@@ -36,6 +36,12 @@ const AuthenticatedFavoritesRouteRoute =
     path: '/favorites',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedAccountRouteRoute =
+  AuthenticatedAccountRouteRouteImport.update({
+    id: '/account',
+    path: '/account',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const authSignupRouteRoute = authSignupRouteRouteImport.update({
   id: '/(auth)/signup',
   path: '/signup',
@@ -46,12 +52,6 @@ const authLoginRouteRoute = authLoginRouteRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedAccountAccountRoute =
-  AuthenticatedAccountAccountRouteImport.update({
-    id: '/account/account',
-    path: '/account/account',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 const AuthenticatedLocationLocationNameRouteRoute =
   AuthenticatedLocationLocationNameRouteRouteImport.update({
     id: '/location/$locationName',
@@ -66,55 +66,55 @@ const AuthenticatedLocationLocationNameRouteRoute =
 export interface FileRoutesByFullPath {
   '/login': typeof authLoginRouteRoute
   '/signup': typeof authSignupRouteRoute
+  '/account': typeof AuthenticatedAccountRouteRoute
   '/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/': typeof AuthenticatedIndexRoute
   '/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
-  '/account/account': typeof AuthenticatedAccountAccountRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof authLoginRouteRoute
   '/signup': typeof authSignupRouteRoute
+  '/account': typeof AuthenticatedAccountRouteRoute
   '/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/': typeof AuthenticatedIndexRoute
   '/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
-  '/account/account': typeof AuthenticatedAccountAccountRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/(auth)/login': typeof authLoginRouteRoute
   '/(auth)/signup': typeof authSignupRouteRoute
+  '/_authenticated/account': typeof AuthenticatedAccountRouteRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRouteRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/location/$locationName': typeof AuthenticatedLocationLocationNameRouteRoute
-  '/_authenticated/account/account': typeof AuthenticatedAccountAccountRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/login'
     | '/signup'
+    | '/account'
     | '/favorites'
     | '/'
     | '/location/$locationName'
-    | '/account/account'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
     | '/signup'
+    | '/account'
     | '/favorites'
     | '/'
     | '/location/$locationName'
-    | '/account/account'
   id:
     | '__root__'
     | '/_authenticated'
     | '/(auth)/login'
     | '/(auth)/signup'
+    | '/_authenticated/account'
     | '/_authenticated/favorites'
     | '/_authenticated/'
     | '/_authenticated/location/$locationName'
-    | '/_authenticated/account/account'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -146,6 +146,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFavoritesRouteRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/(auth)/signup': {
       id: '/(auth)/signup'
       path: '/signup'
@@ -160,13 +167,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/account/account': {
-      id: '/_authenticated/account/account'
-      path: '/account/account'
-      fullPath: '/account/account'
-      preLoaderRoute: typeof AuthenticatedAccountAccountRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/location/$locationName': {
       id: '/_authenticated/location/$locationName'
       path: '/location/$locationName'
@@ -178,18 +178,18 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAccountRouteRoute: typeof AuthenticatedAccountRouteRoute
   AuthenticatedFavoritesRouteRoute: typeof AuthenticatedFavoritesRouteRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedLocationLocationNameRouteRoute: typeof AuthenticatedLocationLocationNameRouteRoute
-  AuthenticatedAccountAccountRoute: typeof AuthenticatedAccountAccountRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAccountRouteRoute: AuthenticatedAccountRouteRoute,
   AuthenticatedFavoritesRouteRoute: AuthenticatedFavoritesRouteRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedLocationLocationNameRouteRoute:
     AuthenticatedLocationLocationNameRouteRoute,
-  AuthenticatedAccountAccountRoute: AuthenticatedAccountAccountRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

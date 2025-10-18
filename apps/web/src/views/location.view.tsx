@@ -1,4 +1,4 @@
-import { CurrentWeatherCard } from "@/components/currentWeatherCard";
+import { CurrentWeatherCard } from "@/components/current-weather-card";
 import { WeatherInfoCard } from "@/components/weatherInfoCard";
 import type { WeatherData } from "@/models/location.model";
 
@@ -18,8 +18,7 @@ export const LocationView = (props: LocationViewProps) => {
   return (
     <div className="w-full flex flex-col flex-1 overflow-hidden p-4 pl-2 gap-4 justify-center items-center">
       <div className="relative rounded-xl overflow-hidden w-15/20">
-        <div className="absolute inset-0 brightness-100 opacity-70 bg-gradient-to-t from-blue-400 via-sky-500 to-blue-700"></div>
-
+        <div className="absolute inset-0 brightness-100 opacity-70"></div>
         <div className="relative p-4">
           <CurrentWeatherCard
             date={props.locationData.weather.current.time}

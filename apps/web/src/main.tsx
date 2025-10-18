@@ -37,6 +37,6 @@ if (!rootElement.innerHTML) {
           <Toaster />
         </ThemeProvider>
       </QueryClientProvider>
-    </StrictMode>
+    </StrictMode>,
   );
 }

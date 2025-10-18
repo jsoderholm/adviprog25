@@ -27,5 +27,5 @@ export const GeocodeResponseSchema = z.array(
     class: z.string().openapi({ example: "boundary" }),
     type: z.string().openapi({ example: "administrative" }),
     importance: z.number().openapi({ example: 0.852 }),
-  })
+  }),
 );

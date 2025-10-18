@@ -1,5 +1,5 @@
-import { LandingPagePresenter } from "@/presenters/landing.presenter";
 import { createFileRoute } from "@tanstack/react-router";
+import { LandingPagePresenter } from "@/presenters/landing.presenter";
 
 export const Route = createFileRoute("/_authenticated/")({
   component: RouteComponent,

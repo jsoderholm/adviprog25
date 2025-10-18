@@ -28,7 +28,7 @@ export function CurrentWeatherCard(props: CurrentWeatherProps) {
     };
     const h = date.getUTCHours().toString().padStart(2, "0");
     const m = date.getUTCMinutes().toString().padStart(2, "0");
-    return date.toLocaleDateString("en-US", options) + " " + `${h}:${m}`;
+    return `${date.toLocaleDateString("en-US", options)} ${h}:${m}`;
   }
 
   return (

@@ -4,11 +4,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import type { WeatherData } from "@/models/location.model";
 
-export function WeatherInfoCard(props: {
-  dailyData: any; // TODO
-  hourlyData: any; // TODO
-}) {
+type WeatherInfoCardProps = Pick<WeatherData["weather"], "daily" | "hourly">;
+
+export function WeatherInfoCard({ daily, hourly }: WeatherInfoCardProps) {
   function formatDate(dateString: string): string {
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = {
@@ -32,13 +32,11 @@ export function WeatherInfoCard(props: {
     for (let i = hour; i < hour + 24; i++) {
       rows.push(
         <tr key={i} className="border-b border-gray-700 text-[20px]">
-          <td className="p-1">{extractHourMinute(props.hourlyData.time[i])}</td>
+          <td className="p-1">{extractHourMinute(hourly.time[i])}</td>
           <td className="p-1 text-center">
-            {Math.round(props.hourlyData.temperature_2m[i])}°
+            {Math.round(hourly.temperature_2m[i])}°
           </td>
-          <td className="p-1 text-center">
-            {Math.round(props.hourlyData.uv_index[i])}
-          </td>
+          <td className="p-1 text-center">{Math.round(hourly.uv_index[i])}</td>
         </tr>,
       );
     }
@@ -46,9 +44,7 @@ export function WeatherInfoCard(props: {
   }
 
   function dailyDataMap() {
-    console.log(props.dailyData.sunrise[0]);
-    console.log(extractHourMinute(props.dailyData.sunrise[0]));
-    const days = props.dailyData.time.length;
+    const days = daily.time.length;
     const items = [];
     for (let i = 0; i < days; i++) {
       items.push(
@@ -58,23 +54,23 @@ export function WeatherInfoCard(props: {
           className="border-b border-gray-700"
         >
           <AccordionTrigger className="grid grid-cols-6 gap-2 text-[20px] px-3 py-2 text-gray-200 hover:border hover:border-yellow-300 data-[state=open]:border data-[state=open]:border-yellow-300 rounded-none hover:cursor-pointer">
-            <span>{formatDate(props.dailyData.time[i])}</span>
+            <span>{formatDate(daily.time[i])}</span>
             <span className="text-center">
-              {Math.round(props.dailyData.temperature_2m_max[i])}° /{" "}
-              {Math.round(props.dailyData.temperature_2m_min[i])}°
+              {Math.round(daily.temperature_2m_max[i])}° /{" "}
+              {Math.round(daily.temperature_2m_min[i])}°
             </span>
             <span className="text-center">
-              {Math.round(props.dailyData.precipitation_sum[i])} mm
+              {Math.round(daily.precipitation_sum[i])} mm
             </span>
             <span className="text-center">
-              {props.dailyData.precipitation_probability_max[i]}%
+              {daily.precipitation_probability_max[i]}%
             </span>
             <span className="text-center">
-              {Math.round(props.dailyData.wind_speed_10m_max[i])} m/s
+              {Math.round(daily.wind_speed_10m_max[i])} m/s
             </span>
             <span className="text-center">
-              {extractHourMinute(props.dailyData.sunrise[i])} /
-              {extractHourMinute(props.dailyData.sunset[i])}
+              {extractHourMinute(daily.sunrise[i])} /
+              {extractHourMinute(daily.sunset[i])}
             </span>
           </AccordionTrigger>
           <AccordionContent className="px-3 py-2 bg-primary/1 border-t border-gray-700">
@@ -98,7 +94,7 @@ export function WeatherInfoCard(props: {
   return (
     <div className="m-2 text-gray-200 overflow-scroll">
       <h1 className="text-3xl font-bold mb-1">
-        Forecast: {props.dailyData.time.length}-days
+        Forecast: {daily.time.length}-days
       </h1>
       <div className="grid grid-cols-6 gap-2 text-[16px] uppercase tracking-wide text-gray-400 border-b border-gray-700 px-3 py-1">
         <span>Date</span>

@@ -1,7 +1,7 @@
-import { LandingPageView } from "@/views/landing.view";
 import { useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSuggestedLocations } from "@/models/landing.model";
+import { LandingPageView } from "@/views/landing.view";
 
 export const LandingPagePresenter = () => {
   const [searchLocation, setSearchLocation] = useState("");
@@ -17,7 +17,7 @@ export const LandingPagePresenter = () => {
 
   const { data: suggestions = [], isFetching } = useSuggestedLocations(
     debounced,
-    debounced.length >= 3
+    debounced.length >= 3,
   );
 
   const handleSelect = (locationName: string, lat: string, lon: string) => {

@@ -48,7 +48,11 @@ const AuthenticatedLocationLocationNameRouteRoute =
     id: '/location/$locationName',
     path: '/location/$locationName',
     getParentRoute: () => AuthenticatedRoute,
-  } as any)
+  } as any).lazy(() =>
+    import('./routes/_authenticated/location/$locationName/route.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 export interface FileRoutesByFullPath {
   '/login': typeof authLoginRouteRoute

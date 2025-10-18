@@ -21,13 +21,6 @@ import {
 type CurrentWeatherCardProps = CurrentWeather & {
   date: string;
   location: string;
-  isDisabled: boolean;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSearch: () => void;
-  homeSelected: boolean;
-  favoriteSelected: boolean;
-  handleFavoriteChange: () => void;
-  handleHomeChange: () => void;
 };
 
 type CurrentWeather = Pick<
@@ -53,7 +46,7 @@ export function CurrentWeatherCard(props: CurrentWeatherCardProps) {
         </CardAction>
       </CardHeader>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-center">
+      <div className="grid grid-cols-2 sm:grid-cols-3  gap-6 items-center">
         <InformationBadge
           label="Temperature"
           icon={<Thermometer className="size-5" />}

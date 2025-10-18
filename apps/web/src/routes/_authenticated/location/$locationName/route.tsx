@@ -1,23 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { LocationPresenter } from "@/presenters/location.presenter";
+import { zodValidator } from "@tanstack/zod-adapter";
+import z from "zod";
+import { weatherQueryOptions } from "@/models/location.model";
 
-type LocationSearch = {
-  lat: string;
-  lon: string;
-};
-
-export const Route = createFileRoute("/_authenticated/location/$locationName")({
-  validateSearch: (search: Record<string, unknown>): LocationSearch => {
-    return {
-      lat: (search.lat as string) || "",
-      lon: (search.lon as string) || "",
-    };
-  },
-  component: RouteComponent,
+const locationSearchSchema = z.object({
+  lat: z.string().min(1, "Latitude is required"),
+  lon: z.string().min(1, "Longitude is required"),
 });
 
-function RouteComponent() {
-  const { locationName } = Route.useParams();
-  const { lat, lon } = Route.useSearch();
-  return <LocationPresenter locationName={locationName} lat={lat} lon={lon} />;
-}
+export const Route = createFileRoute("/_authenticated/location/$locationName")({
+  validateSearch: zodValidator(locationSearchSchema),
+  loaderDeps: ({ search }) => search,
+  loader: async ({ context: { queryClient }, deps: { lat, lon } }) =>
+    await queryClient.prefetchQuery(weatherQueryOptions(lat, lon)),
+});

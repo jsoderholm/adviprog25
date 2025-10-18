@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getCardBackgroundStyles } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/favorites")({
   component: RouteComponent,
@@ -42,7 +43,7 @@ type FavoriteCardProps = {
 };
 
 const FavoriteCard = ({ location }: FavoriteCardProps) => (
-  <Card className="from-primary/5 to-card dark:bg-card bg-gradient-to-t shadow-xs">
+  <Card className={getCardBackgroundStyles()}>
     <CardHeader className="gap-0">
       <CardDescription>{location}</CardDescription>
       <CardTitle className="text-2xl font-semibold tabular-nums">

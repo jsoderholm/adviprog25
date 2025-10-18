@@ -5,10 +5,16 @@ import { LocationView } from "@/views/location.view";
 
 type LocationPresenterProps = {
   locationName: string;
+  lat: string;
+  lon: string;
 };
 
-export const LocationPresenter = ({ locationName }: LocationPresenterProps) => {
-  const { data, error, isLoading } = useWeather(locationName);
+export const LocationPresenter = ({
+  locationName,
+  lat,
+  lon,
+}: LocationPresenterProps) => {
+  const { data, error, isLoading } = useWeather(lat, lon);
   const [searchLocation, setSearchLocation] = useState("");
   const [homeSelected, setHomeSelected] = useState(false);
   const [favoriteSelected, setFavoriteSelected] = useState(false);
@@ -30,6 +36,7 @@ export const LocationPresenter = ({ locationName }: LocationPresenterProps) => {
     navigate({
       to: "/location/$locationName",
       params: { locationName: searchLocation },
+      search: { lat: "", lon: "" },
     });
   };
 

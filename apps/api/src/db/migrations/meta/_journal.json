@@ -22,6 +22,13 @@
       "when": 1760805774269,
       "tag": "0002_workable_vision",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1760807685124,
+      "tag": "0003_unknown_iron_monger",
+      "breakpoints": true
     }
   ]
 }

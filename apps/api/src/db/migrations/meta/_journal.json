@@ -8,6 +8,13 @@
       "when": 1758469772880,
       "tag": "0000_sweet_shotgun",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1760803020902,
+      "tag": "0001_quick_santa_claus",
+      "breakpoints": true
     }
   ]
 }

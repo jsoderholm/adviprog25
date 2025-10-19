@@ -24,7 +24,7 @@ const FavoriteCard = ({ title, handleFavoriteToggle }: FavoriteCardProps) => (
       </CardTitle>
       <CardDescription>{title}</CardDescription>
     </CardHeader>
-    <CardContent className="flex justify-end">
+    <CardContent className="flex justify-end mt-auto">
       <Button
         size="sm"
         variant="outline"

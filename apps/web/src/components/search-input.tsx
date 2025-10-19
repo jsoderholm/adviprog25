@@ -24,52 +24,50 @@ type LocationSearchInputProps = {
   isFetching: boolean;
 };
 
-export function LocationSearchInput({
+export const LocationSearchInput = ({
   suggestions,
   handleInputChange,
   handleSelect,
   isFetching,
-}: LocationSearchInputProps) {
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          className="w-full md:w-[350px] justify-between"
-        >
-          Search
-          <ChevronsUpDown className="opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent align="start" className="md:w-[350px] p-0">
-        <Command>
-          <CommandInput
-            placeholder="Search..."
-            className="h-9"
-            onValueChange={handleInputChange}
-          />
-          <CommandList>
-            {isFetching && (
-              <CommandLoading>
-                <Spinner className="mx-auto mt-2 size-4" />
-              </CommandLoading>
-            )}
-            {!isFetching && <CommandEmpty>No locations found.</CommandEmpty>}
-            <CommandGroup>
-              {suggestions.map((suggestion) => (
-                <CommandItem
-                  key={suggestion.place_id}
-                  value={suggestion.display_name}
-                  onSelect={() => handleSelect(suggestion)}
-                >
-                  {suggestion.display_name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  );
-}
+}: LocationSearchInputProps) => (
+  <Popover>
+    <PopoverTrigger asChild>
+      <Button
+        variant="outline"
+        role="combobox"
+        className="w-full md:w-[350px] justify-between"
+      >
+        Search
+        <ChevronsUpDown className="opacity-50" />
+      </Button>
+    </PopoverTrigger>
+    <PopoverContent align="start" className="md:w-[350px] p-0">
+      <Command>
+        <CommandInput
+          placeholder="Search..."
+          className="h-9"
+          onValueChange={handleInputChange}
+        />
+        <CommandList>
+          {isFetching && (
+            <CommandLoading>
+              <Spinner className="mx-auto mt-2 size-4" />
+            </CommandLoading>
+          )}
+          {!isFetching && <CommandEmpty>No locations found.</CommandEmpty>}
+          <CommandGroup>
+            {suggestions.map((s) => (
+              <CommandItem
+                key={s.place_id}
+                value={`${s.display_name} (${s.place_id})`}
+                onSelect={() => handleSelect(s)}
+              >
+                {s.display_name}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </PopoverContent>
+  </Popover>
+);

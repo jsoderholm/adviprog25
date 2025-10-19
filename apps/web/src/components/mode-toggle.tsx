@@ -18,7 +18,7 @@ export function ModeToggle() {
         <Button
           variant="ghost"
           size="icon"
-          className="w-full md:h-8 md:p-0"
+          className="w-full md:h-8 md:p-0 cursor-pointer"
           onClick={handleThemeChange}
         >
           <Sun className="scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />

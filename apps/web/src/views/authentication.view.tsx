@@ -1,59 +1,20 @@
-import { authClient } from "@repo/api";
-import { Link, useMatch, useNavigate } from "@tanstack/react-router";
+import { Link, type useMatch } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
-import { toast } from "sonner";
-import { z } from "zod";
-import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { useAppForm } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import type { useAuthenticationForm } from "@/presenters/authentication.presenter";
 
-const authenticationSchema = z.object({
-  email: z.email("Please enter a valid email address"),
-  password: z
-    .string()
-    .min(1, "Password is required")
-    .min(8, "Password must be at least 8 characters"),
-});
+type AuthenticationViewProps = {
+  isLogin: ReturnType<typeof useMatch>;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  form: ReturnType<typeof useAuthenticationForm>;
+};
 
-export const AuthenticationForm = () => {
-  const isLogin = useMatch({ from: "/(auth)/login", shouldThrow: false });
-  const navigate = useNavigate();
-
-  const form = useAppForm({
-    validators: {
-      onSubmit: authenticationSchema,
-    },
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: async ({ value }) => {
-      const options: Parameters<typeof authClient.signIn.email>[1] = {
-        onSuccess: () => {
-          if (!isLogin)
-            toast.success("Please check your email to confirm your account.");
-          navigate({ to: isLogin ? "/" : "/login" });
-        },
-        onError: (ctx) => {
-          if (ctx.error.message) toast.error(ctx.error.message);
-        },
-      };
-
-      const { signIn, signUp } = authClient;
-
-      if (isLogin) await signIn.email(value, options);
-      else
-        await signUp.email(
-          {
-            ...value,
-            name: value.email,
-          },
-          options,
-        );
-    },
-  });
-
+export const AuthenticationView = ({
+  isLogin,
+  onSubmit,
+  form,
+}: AuthenticationViewProps) => {
   return (
     <div className="grid min-h-svh">
       <div className="flex justify-center px-4 py-20">
@@ -62,39 +23,7 @@ export const AuthenticationForm = () => {
             {isLogin ? "Log in" : "Create your account"}
           </h1>
           <form.AppForm>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-              }}
-              className="grid gap-4"
-            >
-              <Button
-                variant="outline"
-                type="button"
-                className="w-full"
-                disabled
-              >
-                <Icons.google />
-                Continue with Google
-              </Button>
-              <Button
-                variant="outline"
-                type="button"
-                className="w-full"
-                disabled
-              >
-                <Icons.gitHub />
-                Continue with GitHub
-              </Button>
-
-              <div className="relative text-sm text-center after:border-border after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-                <span className="relative z-10 px-2 text-xs bg-background text-muted-foreground">
-                  OR
-                </span>
-              </div>
-
+            <form onSubmit={onSubmit} className="grid gap-4">
               <form.AppField
                 name="email"
                 children={(field) => (

@@ -6,6 +6,7 @@ export const Route = createFileRoute("/_authenticated")({
     const session = await queryClient.fetchQuery(authQueryOptions);
 
     if (!session.data) {
+      queryClient.clear();
       throw redirect({
         to: "/login",
         search: {

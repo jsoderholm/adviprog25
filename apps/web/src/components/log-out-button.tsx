@@ -26,7 +26,7 @@ export const LogoutButton = ({ handleSignOut }: LogoutButtonProps) => {
             <Button
               size="icon"
               variant="ghost"
-              className="w-full md:h-8 md:p-0"
+              className="w-full md:h-8 md:p-0 cursor-pointer"
             >
               <LogOut />
             </Button>

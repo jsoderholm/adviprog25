@@ -43,11 +43,12 @@ export function CurrentWeatherCard(props: CurrentWeatherCardProps) {
         <CardDescription>{format(props.date, "d MMMM")}</CardDescription>
         <CardAction>
           <Button
-            size="icon"
-            variant="ghost"
+            size="sm"
+            variant="outline"
             className="cursor-pointer"
             onClick={props.onFavoriteToggle}
           >
+            Favorite
             <Heart fill={props.isFavorite ? "true" : "none"} />
           </Button>
         </CardAction>
@@ -99,7 +100,7 @@ const InformationBadge = ({ label, icon, value }: InformationBadgeProps) => {
   return (
     <div className="flex flex-col items-center gap-0">
       {icon}
-      <span className="text-gray-800 text-xs uppercase tracking-wider mt-1">
+      <span className="text-muted-foreground text-xs uppercase tracking-wider mt-1">
         {label}
       </span>
       <span className="text-lg font-medium">{value}</span>

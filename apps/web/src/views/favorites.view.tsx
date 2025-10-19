@@ -2,42 +2,39 @@ import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardAction,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getCardBackgroundStyles } from "@/lib/utils";
 import type { FavoriteData } from "@/models/favorites.model";
 
 type FavoriteCardProps = {
-  location: string;
-  favoriteId: number;
-  handleFavoriteToggle: (id: number, name: string) => void;
+  title: string;
+  handleFavoriteToggle: () => void;
 };
 
-const FavoriteCard = ({
-  favoriteId,
-  location,
-  handleFavoriteToggle,
-}: FavoriteCardProps) => (
+const FavoriteCard = ({ title, handleFavoriteToggle }: FavoriteCardProps) => (
   <Card className={getCardBackgroundStyles()}>
-    <CardHeader className="gap-0">
-      <CardDescription>{location}</CardDescription>
-      <CardTitle className="text-2xl font-semibold tabular-nums">
-        {location}
+    <CardHeader>
+      <CardTitle className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+        {title}
       </CardTitle>
-      <CardAction>
-        <Button
-          size="icon"
-          variant="ghost"
-          className="cursor-pointer"
-          onClick={() => handleFavoriteToggle(favoriteId, location)}
-        >
-          <Heart fill="true" />
-        </Button>
-      </CardAction>
+      <CardDescription>{title}</CardDescription>
     </CardHeader>
+    <CardContent className="flex justify-end">
+      <Button
+        size="sm"
+        variant="outline"
+        className="cursor-pointer"
+        onClick={handleFavoriteToggle}
+      >
+        Favorite
+        <Heart fill="true" />
+      </Button>
+    </CardContent>
   </Card>
 );
 
@@ -49,22 +46,23 @@ type FavoritesViewProps = {
 };
 
 export const FavoritesView = (props: FavoritesViewProps) => {
-  if (props.isLoading) return <div>Loading...</div>;
+  if (props.isLoading) return <Skeleton className="size-full" />;
   if (props.isError) return <div>Error loading favorites</div>;
 
   return (
-    <>
-      <h1 className="text-4xl font-semibold m-4">Favorites</h1>
-      <div>
+    <div className="flex flex-col gap-4">
+      <p className="text-2xl font-semibold">Favorites</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {props.favorites.map(({ id, displayName }) => (
           <FavoriteCard
             key={id}
-            favoriteId={id}
-            location={displayName}
-            handleFavoriteToggle={props.handleFavoriteToggle}
+            title={displayName}
+            handleFavoriteToggle={() =>
+              props.handleFavoriteToggle(id, displayName)
+            }
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };

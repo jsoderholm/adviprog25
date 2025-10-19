@@ -5,6 +5,7 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "./components/theme-provider";
+import { Skeleton } from "./components/ui/skeleton";
 import { routeTree } from "./routeTree.gen";
 
 const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ const router = createRouter({
   defaultPreload: "intent",
   defaultPreloadStaleTime: 0,
   scrollRestoration: true,
+  defaultPendingComponent: () => <Skeleton className="size-full" />,
 });
 
 declare module "@tanstack/react-router" {

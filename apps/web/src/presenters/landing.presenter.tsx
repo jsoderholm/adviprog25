@@ -31,7 +31,7 @@ export const LandingPagePresenter = () => {
 
   const debouncedHandleInputChange = useDebouncedCallback(
     handleInputChange,
-    500,
+    1000,
   );
 
   const handleNavigate = useCallback(

@@ -1,7 +1,13 @@
 import { ArrowRight } from "lucide-react";
 import { LocationSearchInput } from "@/components/search-input";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardAction, CardContent, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import type { LocationHistoryStore } from "@/hooks/use-recent";
 import { getCardBackgroundStyles } from "@/lib/utils";
 import type { LocationsData } from "@/models/landing.model";
@@ -21,56 +27,53 @@ export const LandingPageView = ({
   handleNavigate,
   handleInputChange,
   isFetching,
-}: LandingPageViewProps) => {
-  return (
-    <div className="flex flex-col gap-4">
-      <LocationSearchInput
-        suggestions={suggestions}
-        handleInputChange={handleInputChange}
-        handleSelect={handleSelect}
-        isFetching={isFetching}
-      />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {history.map((location) => (
-          <LocationHistoryCard
-            key={location.place_id}
-            location={location}
-            handleNavigate={handleNavigate}
-          />
-        ))}
-      </div>
+}: LandingPageViewProps) => (
+  <div className="flex flex-col gap-4">
+    <LocationSearchInput
+      suggestions={suggestions}
+      handleInputChange={handleInputChange}
+      handleSelect={handleSelect}
+      isFetching={isFetching}
+    />
+    <p className="text-2xl font-semibold">Recent locations</p>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {history.map((location) => (
+        <LocationHistoryCard
+          key={location.place_id}
+          location={location}
+          handleNavigate={handleNavigate}
+        />
+      ))}
     </div>
-  );
-};
+  </div>
+);
 
 type LocationHistoryCardProps = {
   location: LocationsData[number];
   handleNavigate: (location: LocationsData[number]) => void;
 };
 
-const LocationHistoryCard = ({
+export const LocationHistoryCard = ({
   location,
   handleNavigate,
-}: LocationHistoryCardProps) => {
-  return (
-    <Card className={getCardBackgroundStyles()}>
-      <CardContent>
-        <div className="flex items-center justify-between gap-4">
-          <CardTitle className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-            {location.display_name}
-          </CardTitle>
-          <CardAction>
-            <Badge
-              variant="outline"
-              className="cursor-pointer hover:bg-accent hover:text-accent-foreground"
-              onClick={() => handleNavigate(location)}
-            >
-              View
-              <ArrowRight />
-            </Badge>
-          </CardAction>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
+}: LocationHistoryCardProps) => (
+  <Card className={getCardBackgroundStyles()}>
+    <CardHeader>
+      <CardTitle className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+        {location.display_name}
+      </CardTitle>
+      <CardDescription>{location.display_name}</CardDescription>
+    </CardHeader>
+    <CardContent className="flex justify-end">
+      <Button
+        variant="outline"
+        size="sm"
+        className="cursor-pointer"
+        onClick={() => handleNavigate(location)}
+      >
+        View
+        <ArrowRight />
+      </Button>
+    </CardContent>
+  </Card>
+);

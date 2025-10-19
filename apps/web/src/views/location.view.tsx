@@ -8,7 +8,7 @@ import { useForecastColumns } from "@/components/forecast-table/use-forecast-col
 import type { WeatherData } from "@/models/location.model";
 
 const transformWeatherDataToForecastRows = (
-  weatherData: WeatherData,
+  weatherData: WeatherData
 ): ForecastRow[] => {
   const { daily, hourly } = weatherData.weather;
 
@@ -41,7 +41,7 @@ const transformWeatherDataToForecastRows = (
     const precipitationMm =
       Math.round(daily.precipitation_sum[index] * 10) / 10;
     const precipitationProbability = Math.round(
-      daily.precipitation_probability_max[index],
+      daily.precipitation_probability_max[index]
     );
     const precipitation = `${precipitationMm} mm (${precipitationProbability}%)`;
 
@@ -64,6 +64,8 @@ const transformWeatherDataToForecastRows = (
 type LocationViewProps = {
   locationName: string;
   locationData: WeatherData;
+  isFavorite: boolean;
+  onFavoriteToggle: () => void;
 };
 
 export const LocationView = (props: LocationViewProps) => {
@@ -73,6 +75,8 @@ export const LocationView = (props: LocationViewProps) => {
   return (
     <div className="grid gap-4">
       <CurrentWeatherCard
+        isFavorite={props.isFavorite}
+        onFavoriteToggle={props.onFavoriteToggle}
         date={props.locationData.weather.current.time}
         relative_humidity_2m={
           props.locationData.weather.current.relative_humidity_2m

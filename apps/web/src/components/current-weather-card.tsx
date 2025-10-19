@@ -21,6 +21,8 @@ import {
 type CurrentWeatherCardProps = CurrentWeather & {
   date: string;
   location: string;
+  isFavorite: boolean;
+  onFavoriteToggle: () => void;
 };
 
 type CurrentWeather = Pick<
@@ -40,8 +42,13 @@ export function CurrentWeatherCard(props: CurrentWeatherCardProps) {
         <CardTitle className="text-2xl">{props.location}</CardTitle>
         <CardDescription>{format(props.date, "d MMMM")}</CardDescription>
         <CardAction>
-          <Button size="icon" variant="ghost" className="cursor-pointer">
-            <Heart />
+          <Button
+            size="icon"
+            variant="ghost"
+            className="cursor-pointer"
+            onClick={props.onFavoriteToggle}
+          >
+            <Heart fill={props.isFavorite ? "true" : "none"} />
           </Button>
         </CardAction>
       </CardHeader>

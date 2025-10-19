@@ -1,32 +1,53 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import type { Location } from "@/hooks/use-recent";
+import { useRecentLocationStore } from "@/hooks/use-recent";
 import { useSuggestedLocations } from "@/models/landing.model";
 import { LandingPageView } from "@/views/landing.view";
 
 export const LandingPagePresenter = () => {
   const [searchLocation, setSearchLocation] = useState("");
   const [debounced, setDebounced] = useState(searchLocation);
+  const [isDebouncing, setIsDebouncing] = useState(false);
   const [numChars, setNumChars] = useState(0);
   const navigate = useNavigate();
 
+  const { append, history } = useRecentLocationStore();
+
   useEffect(() => {
     setNumChars(searchLocation.length);
-    const handler = setTimeout(() => setDebounced(searchLocation), 400);
+    setIsDebouncing(true);
+    const handler = setTimeout(() => {
+      setDebounced(searchLocation);
+      setIsDebouncing(false);
+    }, 400);
     return () => clearTimeout(handler);
   }, [searchLocation]);
 
-  const { data: suggestions = [], isFetching } = useSuggestedLocations(
-    debounced,
-    debounced.length >= 3,
+  const { data: suggestions = [], isLoading: isLoadingSuggestions } =
+    useSuggestedLocations(debounced, debounced.length >= 3);
+
+  const handleNavigate = useCallback(
+    (location: Location) =>
+      navigate({
+        to: "/location/$locationName",
+        params: { locationName: location.name },
+        search: {
+          placeId: location.place_id,
+          lat: location.lat,
+          lon: location.lon,
+        },
+      }),
+    [navigate]
   );
 
-  const handleSelect = (locationName: string, lat: string, lon: string) => {
-    navigate({
-      to: "/location/$locationName",
-      params: { locationName },
-      search: { lat, lon },
-    });
-  };
+  const handleSelect = useCallback(
+    ({ name, place_id, lat, lon }: Location) => {
+      append({ name, place_id, lat, lon });
+      handleNavigate({ name, place_id, lat, lon });
+    },
+    [append, handleNavigate]
+  );
 
   return (
     <LandingPageView
@@ -34,7 +55,9 @@ export const LandingPagePresenter = () => {
       handleSelect={handleSelect}
       suggestions={suggestions}
       numChars={numChars}
-      isLoading={isFetching}
+      isLoading={isLoadingSuggestions || isDebouncing}
+      history={history}
+      handleNavigate={handleNavigate}
     />
   );
 };

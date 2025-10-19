@@ -21,7 +21,7 @@ export const LandingPagePresenter = () => {
 
   const { data: suggestions = [], isFetching } = useSuggestedLocations(
     debounced,
-    debounced.length >= 3,
+    debounced.length >= 3
   );
 
   const handleNavigate = useCallback(
@@ -29,17 +29,21 @@ export const LandingPagePresenter = () => {
       navigate({
         to: "/location/$locationName",
         params: { locationName: location.name },
-        search: { lat: location.lat, lon: location.lon },
+        search: {
+          placeId: location.place_id,
+          lat: location.lat,
+          lon: location.lon,
+        },
       }),
-    [navigate],
+    [navigate]
   );
 
   const handleSelect = useCallback(
-    ({ name, lat, lon }: Location) => {
-      append({ name, lat, lon });
-      handleNavigate({ name, lat, lon });
+    ({ name, place_id, lat, lon }: Location) => {
+      append({ name, place_id, lat, lon });
+      handleNavigate({ name, place_id, lat, lon });
     },
-    [append, handleNavigate],
+    [append, handleNavigate]
   );
 
   return (

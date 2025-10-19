@@ -42,7 +42,9 @@ export const LandingPageView = ({
         showDropdown={showDropdown}
         isLoading={isLoading}
         suggestions={suggestions as LocationsData}
-        handleSelect={(name, lat, lon) => handleSelect({ name, lat, lon })}
+        handleSelect={(name, place_id, lat, lon) =>
+          handleSelect({ name, place_id, lat, lon })
+        }
       />
       <div className="grid grid-cols-4 gap-4">
         {history.map((location) => (
@@ -95,7 +97,12 @@ type SearchInputProps = {
   showDropdown: boolean;
   isLoading: boolean;
   suggestions: LocationsData;
-  handleSelect: (name: string, lat: string, lon: string) => void;
+  handleSelect: (
+    name: string,
+    place_id: number,
+    lat: string,
+    lon: string
+  ) => void;
 };
 
 const SearchInput = ({
@@ -125,15 +132,15 @@ const SearchInput = ({
             {!isLoading && (
               <CommandGroup>
                 {suggestions.map(
-                  ({ display_name: name, lat, lon, ...rest }) => (
+                  ({ display_name: name, lat, lon, place_id }) => (
                     <CommandItem
-                      key={rest.place_id}
-                      onSelect={() => handleSelect?.(name, lat, lon)}
+                      key={place_id}
+                      onSelect={() => handleSelect?.(name, place_id, lat, lon)}
                       className="cursor-pointer"
                     >
                       {name}
                     </CommandItem>
-                  ),
+                  )
                 )}
                 <CommandEmpty>No results found.</CommandEmpty>
               </CommandGroup>

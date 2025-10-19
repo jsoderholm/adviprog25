@@ -12,9 +12,15 @@ import type { FavoriteData } from "@/models/favorites.model";
 
 type FavoriteCardProps = {
   location: string;
+  favoriteId: number;
+  handleFavoriteToggle: (favoriteId: number, locationName: string) => void;
 };
 
-const FavoriteCard = ({ location }: FavoriteCardProps) => (
+const FavoriteCard = ({
+  favoriteId,
+  location,
+  handleFavoriteToggle,
+}: FavoriteCardProps) => (
   <Card className={getCardBackgroundStyles()}>
     <CardHeader className="gap-0">
       <CardDescription>{location}</CardDescription>
@@ -22,8 +28,13 @@ const FavoriteCard = ({ location }: FavoriteCardProps) => (
         {location}
       </CardTitle>
       <CardAction>
-        <Button size="icon" variant="ghost" className="cursor-pointer">
-          <Heart />
+        <Button
+          size="icon"
+          variant="ghost"
+          className="cursor-pointer"
+          onClick={() => handleFavoriteToggle(favoriteId, location)}
+        >
+          <Heart fill="true" />
         </Button>
       </CardAction>
     </CardHeader>
@@ -33,6 +44,7 @@ type FavoritesViewProps = {
   favorites: FavoriteData[] | undefined;
   isLoading: boolean;
   isError: boolean;
+  handleFavoriteToggle: (favoriteId: number, locationName: string) => void;
 };
 
 export const FavoritesView = (props: FavoritesViewProps) => {
@@ -40,10 +52,18 @@ export const FavoritesView = (props: FavoritesViewProps) => {
   if (props.isError) return <div>Error loading favorites</div>;
 
   return (
-    <div>
-      {props.favorites!.map((favorite) => (
-        <FavoriteCard key={favorite.id} location={favorite.displayName} />
-      ))}
-    </div>
+    <>
+      <h1 className="text-4xl font-semibold m-4">Favorites</h1>
+      <div>
+        {props.favorites!.map((favorite) => (
+          <FavoriteCard
+            key={favorite.id}
+            favoriteId={favorite.id}
+            location={favorite.displayName}
+            handleFavoriteToggle={props.handleFavoriteToggle}
+          />
+        ))}
+      </div>
+    </>
   );
 };

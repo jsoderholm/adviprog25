@@ -1,4 +1,4 @@
-import { createRouter } from "src/lib/create-app";
+import { createRouter } from "../../lib/create-app";
 
 import * as routes from "./weather.route";
 import * as handlers from "./weather.handlers";

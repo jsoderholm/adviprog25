@@ -7,11 +7,10 @@ import {
   useRemoveFavorite,
 } from "@/models/favorites.model";
 import { toast } from "sonner";
-import { fa } from "zod/v4/locales";
 
 type LocationPresenterProps = {
   locationName: string;
-  placeId: string;
+  placeId: number;
   lat: string;
   lon: string;
 };
@@ -32,7 +31,7 @@ export const LocationPresenter = ({
       removeFavoriteMutation.mutate(favorite.id);
       toast.success(`${locationName} removed from favorites!`);
     } else {
-      addFavoriteMutation.mutate({ placeId, locationName, lat, lon });
+      addFavoriteMutation.mutate({ placeId, locationName });
       toast.success(`${locationName} added to favorites!`);
     }
   };

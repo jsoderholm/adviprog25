@@ -27,12 +27,10 @@ export function useFavorites() {
   });
 }
 
-export function useIsFavorite(placeId: string) {
+export function useIsFavorite(placeId: number) {
   const { data: favorites } = useFavorites();
   return useMemo(() => {
-    const favorite = favorites?.find(
-      (fav) => fav.placeId.toString() == placeId
-    );
+    const favorite = favorites?.find((fav) => fav.placeId === placeId);
     return favorite ? favorite : null;
   }, [favorites, placeId]);
 }
@@ -43,13 +41,9 @@ export const useAddFavorite = () => {
     mutationFn: async ({
       placeId,
       locationName,
-      lat,
-      lon,
     }: {
-      placeId: string;
+      placeId: number;
       locationName: string;
-      lat: string;
-      lon: string;
     }) => {
       const session = await authClient.getSession();
       const userId = session?.data?.user.id;
@@ -57,10 +51,8 @@ export const useAddFavorite = () => {
 
       return api.favorites.$post({
         json: {
-          placeId: parseInt(placeId, 10),
+          placeId: placeId,
           displayName: locationName,
-          lat,
-          lon,
           userId,
         },
       });

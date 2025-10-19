@@ -32,14 +32,11 @@ export const LandingPageView = ({
   history,
   handleNavigate,
 }: LandingPageViewProps) => {
-  const showDropdown = isLoading || suggestions.length > 0;
-
   return (
     <div className="flex flex-col gap-4">
       <SearchInput
         handleInputChange={handleInputChange}
         numChars={numChars}
-        showDropdown={showDropdown}
         isLoading={isLoading}
         suggestions={suggestions as LocationsData}
         handleSelect={(name, place_id, lat, lon) =>
@@ -94,7 +91,6 @@ const LocationHistoryCard = ({
 type SearchInputProps = {
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   numChars: number;
-  showDropdown: boolean;
   isLoading: boolean;
   suggestions: LocationsData;
   handleSelect: (
@@ -108,7 +104,6 @@ type SearchInputProps = {
 const SearchInput = ({
   handleInputChange,
   numChars,
-  showDropdown,
   isLoading,
   suggestions,
   handleSelect,
@@ -120,16 +115,26 @@ const SearchInput = ({
         onChange={handleInputChange}
         className="placeholder:text-primary placeholder:text-[1.1rem]"
       />
-      {numChars > 0 && numChars < 3 && (
+      {/* {numChars > 0 && numChars < 3 && (
         <div className="absolute z-10 w-full">
           <p className="p-2">Enter at least 3 characters...</p>
         </div>
+      )} */}
+      {numChars > 0 && numChars < 3 && (
+        <Command className="border">
+          <CommandList>
+            <CommandItem disabled>Enter at least 3 characters...</CommandItem>
+          </CommandList>
+        </Command>
       )}
-      {showDropdown && (
+      {numChars > 2 && (
         <Command className="border">
           <CommandList>
             {isLoading && <CommandItem disabled>Searching...</CommandItem>}
-            {!isLoading && (
+            {!isLoading && suggestions.length === 0 && (
+              <CommandEmpty>No results found.</CommandEmpty>
+            )}
+            {!isLoading && suggestions.length > 0 && (
               <CommandGroup>
                 {suggestions.map(
                   ({ display_name: name, lat, lon, place_id }) => (

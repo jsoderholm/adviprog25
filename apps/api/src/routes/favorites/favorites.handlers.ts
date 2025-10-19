@@ -1,8 +1,8 @@
 import type { GetAllRoute, CreateRoute, DeleteRoute } from "./favorites.route";
-import type { AppRouteHandler } from "src/lib/create-app";
+import type { AppRouteHandler } from "../../lib/create-app";
 import * as HttpStatusCodes from "stoker/http-status-codes";
-import { db } from "src/db";
-import { favorites as favoritesTable, user } from "src/db/schema";
+import { db } from "../../db";
+import { favorites as favoritesTable, user } from "../../db/schema";
 import { eq } from "drizzle-orm";
 
 export const getAll: AppRouteHandler<GetAllRoute> = async (c) => {

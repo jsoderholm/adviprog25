@@ -9,17 +9,12 @@ class GeocodeService {
           headers: {
             Authorization: `Bearer ${env.GEOCODING_API_KEY}`,
           },
-        },
+        }
       );
-      const data = await response.json();
-      if (data && data.length > 0) {
-        return data;
-      } else {
-        console.error(
-          "Geocoding failure: No data found for the given search query",
-        );
-        return null;
+      if (!response.ok) {
+        throw new Error("Failed to fetch geocode data");
       }
+      return await response.json();
     } catch (error) {
       console.error("Geocoding failure:", error);
       return null;

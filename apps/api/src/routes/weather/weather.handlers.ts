@@ -1,7 +1,7 @@
 import type { GetRoute } from "./weather.route";
-import type { AppRouteHandler } from "src/lib/create-app";
+import type { AppRouteHandler } from "../../lib/create-app";
 import * as HttpStatusCodes from "stoker/http-status-codes";
-import { weatherService } from "src/dependencies";
+import { weatherService } from "../../dependencies";
 
 export const get: AppRouteHandler<GetRoute> = async (c) => {
   const params = c.req.valid("query");

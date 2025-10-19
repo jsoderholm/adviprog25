@@ -23,8 +23,16 @@ export const LocationPresenter = ({
 
   const handleFavoriteToggle = useCallback(() => {
     if (isFavorited) removeMutation.mutate(isFavorited.id);
-    else addMutation.mutate({ placeId, locationName });
-  }, [isFavorited, removeMutation, addMutation, placeId, locationName]);
+    else addMutation.mutate({ placeId, locationName, lat, lon });
+  }, [
+    isFavorited,
+    removeMutation,
+    addMutation,
+    placeId,
+    locationName,
+    lat,
+    lon,
+  ]);
 
   return (
     <LocationView

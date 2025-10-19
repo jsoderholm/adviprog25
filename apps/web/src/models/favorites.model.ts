@@ -14,6 +14,8 @@ export type FavoriteData = {
   id: number;
   placeId: number;
   displayName: string;
+  lat: string;
+  lon: string;
   dateAdded: string;
   userId: string;
 };
@@ -41,7 +43,7 @@ export function useIsFavorite(placeId: number) {
 
   return useMemo(
     () => data?.find((fav) => fav.placeId === placeId) ?? null,
-    [data, placeId],
+    [data, placeId]
   );
 }
 
@@ -50,9 +52,13 @@ const addFavoriteMutationOptions = (queryClient: QueryClient) =>
     mutationFn: async ({
       placeId,
       locationName,
+      lat,
+      lon,
     }: {
       placeId: number;
       locationName: string;
+      lat: string;
+      lon: string;
     }) => {
       const session = await queryClient.fetchQuery(authQueryOptions);
       if (!session.data) {
@@ -64,6 +70,9 @@ const addFavoriteMutationOptions = (queryClient: QueryClient) =>
         json: {
           placeId: placeId,
           displayName: locationName,
+          lat: lat,
+          lon: lon,
+
           userId: session.data.user.id,
         },
       });
@@ -94,9 +103,18 @@ export const useFavoritesMutation = () => {
   const queryClient = useQueryClient();
 
   const removeMutation = useMutation(
-    removeFavoriteMutationOptions(queryClient),
+    removeFavoriteMutationOptions(queryClient)
   );
   const addMutation = useMutation(addFavoriteMutationOptions(queryClient));
 
   return { removeMutation, addMutation };
+};
+
+export const getLocationFromFavorite = async (name: string) => {
+  const res = await api.geocode.$get({
+    query: { search: name },
+  });
+  if (!res.ok) throw new Error("Failed to fetch location");
+  const locations = await res.json();
+  return locations[0];
 };

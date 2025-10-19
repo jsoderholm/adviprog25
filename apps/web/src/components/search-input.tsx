@@ -18,6 +18,8 @@ import type { LocationsData } from "@/models/landing.model";
 import { Spinner } from "./ui/spinner";
 
 type LocationSearchInputProps = {
+  queryLength: number;
+  isDebouncing: boolean;
   suggestions: LocationsData;
   handleInputChange: (query: string) => void;
   handleSelect: (location: LocationsData[number]) => void;
@@ -25,6 +27,8 @@ type LocationSearchInputProps = {
 };
 
 export const LocationSearchInput = ({
+  queryLength,
+  isDebouncing,
   suggestions,
   handleInputChange,
   handleSelect,
@@ -49,23 +53,38 @@ export const LocationSearchInput = ({
           onValueChange={handleInputChange}
         />
         <CommandList>
-          {isFetching && (
-            <CommandLoading>
-              <Spinner className="mx-auto mt-2 size-4" />
-            </CommandLoading>
+          {queryLength === 0 && (
+            <CommandEmpty>Search for any location!</CommandEmpty>
           )}
-          {!isFetching && <CommandEmpty>No locations found.</CommandEmpty>}
-          <CommandGroup>
-            {suggestions?.map((s) => (
-              <CommandItem
-                key={s.place_id}
-                value={`${s.display_name} (${s.place_id})`}
-                onSelect={() => handleSelect(s)}
-              >
-                {s.display_name}
-              </CommandItem>
-            ))}
-          </CommandGroup>
+          {queryLength > 0 && queryLength < 3 && (
+            <CommandEmpty>Enter at least 3 characters.</CommandEmpty>
+          )}
+          {queryLength > 2 && (
+            <>
+              {isFetching ||
+                (isDebouncing && (
+                  <CommandLoading progress={10}>
+                    <Spinner className="mx-auto mt-4 mb-4 size-4" />
+                  </CommandLoading>
+                ))}
+              {!isFetching && !isDebouncing && (
+                <>
+                  <CommandEmpty>No locations found.</CommandEmpty>
+                  <CommandGroup>
+                    {suggestions?.map((s) => (
+                      <CommandItem
+                        key={s.place_id}
+                        value={`${s.display_name} (${s.place_id})`}
+                        onSelect={() => handleSelect(s)}
+                      >
+                        {s.display_name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </>
+              )}
+            </>
+          )}
         </CommandList>
       </Command>
     </PopoverContent>

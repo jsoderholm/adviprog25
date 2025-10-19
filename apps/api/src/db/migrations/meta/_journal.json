@@ -15,6 +15,13 @@
       "when": 1760871478203,
       "tag": "0001_long_molly_hayes",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1760888988403,
+      "tag": "0002_clammy_sandman",
+      "breakpoints": true
     }
   ]
 }

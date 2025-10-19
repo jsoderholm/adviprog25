@@ -4,6 +4,7 @@ import z from "zod";
 import { weatherQueryOptions } from "@/models/location.model";
 
 const locationSearchSchema = z.object({
+  placeId: z.number().min(1, "Place ID is required"),
   lat: z.string().min(1, "Latitude is required"),
   lon: z.string().min(1, "Longitude is required"),
 });

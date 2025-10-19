@@ -5,6 +5,7 @@ export type Location = {
   lat: string;
   lon: string;
   name: string;
+  place_id: number;
 };
 
 export type LocationHistoryStore = {
@@ -20,7 +21,7 @@ export const useRecentLocationStore = create<LocationHistoryStore>()(
         set(({ history }) => {
           const existing = history.find(
             (existing) =>
-              existing.lat === location.lat && existing.lon === location.lon,
+              existing.lat === location.lat && existing.lon === location.lon
           );
 
           if (existing) return { history };
@@ -30,6 +31,6 @@ export const useRecentLocationStore = create<LocationHistoryStore>()(
     }),
     {
       name: "location-history",
-    },
-  ),
+    }
+  )
 );

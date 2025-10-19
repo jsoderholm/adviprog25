@@ -8,6 +8,7 @@ import { LandingPageView } from "@/views/landing.view";
 export const LandingPagePresenter = () => {
   const [searchLocation, setSearchLocation] = useState("");
   const [debounced, setDebounced] = useState(searchLocation);
+  const [isDebouncing, setIsDebouncing] = useState(false);
   const [numChars, setNumChars] = useState(0);
   const navigate = useNavigate();
 
@@ -15,31 +16,37 @@ export const LandingPagePresenter = () => {
 
   useEffect(() => {
     setNumChars(searchLocation.length);
-    const handler = setTimeout(() => setDebounced(searchLocation), 400);
+    setIsDebouncing(true);
+    const handler = setTimeout(() => {
+      setDebounced(searchLocation);
+      setIsDebouncing(false);
+    }, 400);
     return () => clearTimeout(handler);
   }, [searchLocation]);
 
-  const { data: suggestions = [], isFetching } = useSuggestedLocations(
-    debounced,
-    debounced.length >= 3,
-  );
+  const { data: suggestions = [], isLoading: isLoadingSuggestions } =
+    useSuggestedLocations(debounced, debounced.length >= 3);
 
   const handleNavigate = useCallback(
     (location: Location) =>
       navigate({
         to: "/location/$locationName",
         params: { locationName: location.name },
-        search: { lat: location.lat, lon: location.lon },
+        search: {
+          placeId: location.place_id,
+          lat: location.lat,
+          lon: location.lon,
+        },
       }),
-    [navigate],
+    [navigate]
   );
 
   const handleSelect = useCallback(
-    ({ name, lat, lon }: Location) => {
-      append({ name, lat, lon });
-      handleNavigate({ name, lat, lon });
+    ({ name, place_id, lat, lon }: Location) => {
+      append({ name, place_id, lat, lon });
+      handleNavigate({ name, place_id, lat, lon });
     },
-    [append, handleNavigate],
+    [append, handleNavigate]
   );
 
   return (
@@ -48,7 +55,7 @@ export const LandingPagePresenter = () => {
       handleSelect={handleSelect}
       suggestions={suggestions}
       numChars={numChars}
-      isLoading={isFetching}
+      isLoading={isLoadingSuggestions || isDebouncing}
       history={history}
       handleNavigate={handleNavigate}
     />

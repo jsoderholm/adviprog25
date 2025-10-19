@@ -1,63 +1,69 @@
-import { useNavigate } from "@tanstack/react-router";
-import { useCallback, useEffect, useState } from "react";
-import type { Location } from "@/hooks/use-recent";
+import { useLoaderDeps, useNavigate } from "@tanstack/react-router";
+import { useCallback } from "react";
+import { useDebouncedCallback } from "use-debounce";
 import { useRecentLocationStore } from "@/hooks/use-recent";
-import { useSuggestedLocations } from "@/models/landing.model";
+import {
+  type LocationsData,
+  useSuggestedLocations,
+} from "@/models/landing.model";
 import { LandingPageView } from "@/views/landing.view";
 
+const MIN_QUERY_LENGTH = 3 as const;
+
 export const LandingPagePresenter = () => {
-  const [searchLocation, setSearchLocation] = useState("");
-  const [debounced, setDebounced] = useState(searchLocation);
-  const [isDebouncing, setIsDebouncing] = useState(false);
-  const [numChars, setNumChars] = useState(0);
-  const navigate = useNavigate();
-
+  const navigate = useNavigate({ from: "/" });
   const { append, history } = useRecentLocationStore();
+  const { query } = useLoaderDeps({ from: "/_authenticated/" });
 
-  useEffect(() => {
-    setNumChars(searchLocation.length);
-    setIsDebouncing(true);
-    const handler = setTimeout(() => {
-      setDebounced(searchLocation);
-      setIsDebouncing(false);
-    }, 400);
-    return () => clearTimeout(handler);
-  }, [searchLocation]);
+  const { data: suggestions = [], isFetching } = useSuggestedLocations({
+    query: query ?? "",
+    enabled: query !== undefined && query.length > MIN_QUERY_LENGTH,
+  });
 
-  const { data: suggestions = [], isLoading: isLoadingSuggestions } =
-    useSuggestedLocations(debounced, debounced.length >= 3);
+  const handleInputChange = useCallback(
+    (query: string) =>
+      navigate({
+        search: { query },
+        replace: true,
+      }),
+    [navigate],
+  );
+
+  const debouncedHandleInputChange = useDebouncedCallback(
+    handleInputChange,
+    500,
+  );
 
   const handleNavigate = useCallback(
-    (location: Location) =>
+    (location: LocationsData[number]) =>
       navigate({
         to: "/location/$locationName",
-        params: { locationName: location.name },
+        params: { locationName: location.display_name },
         search: {
           placeId: location.place_id,
           lat: location.lat,
           lon: location.lon,
         },
       }),
-    [navigate]
+    [navigate],
   );
 
   const handleSelect = useCallback(
-    ({ name, place_id, lat, lon }: Location) => {
-      append({ name, place_id, lat, lon });
-      handleNavigate({ name, place_id, lat, lon });
+    (location: LocationsData[number]) => {
+      handleNavigate(location);
+      append(location);
     },
-    [append, handleNavigate]
+    [append, handleNavigate],
   );
 
   return (
     <LandingPageView
-      handleInputChange={(e) => setSearchLocation(e.target.value)}
-      handleSelect={handleSelect}
-      suggestions={suggestions}
-      numChars={numChars}
-      isLoading={isLoadingSuggestions || isDebouncing}
+      isFetching={isFetching}
       history={history}
       handleNavigate={handleNavigate}
+      handleSelect={handleSelect}
+      handleInputChange={debouncedHandleInputChange}
+      suggestions={suggestions}
     />
   );
 };

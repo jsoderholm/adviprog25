@@ -26,7 +26,9 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedRoute,
-} as any)
+} as any).lazy(() =>
+  import('./routes/_authenticated/index.lazy').then((d) => d.Route),
+)
 const AuthenticatedFavoritesRouteRoute =
   AuthenticatedFavoritesRouteRouteImport.update({
     id: '/favorites',

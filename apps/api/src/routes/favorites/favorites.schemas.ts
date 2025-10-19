@@ -13,7 +13,7 @@ export const GetAllResponseSchema = z.array(
     displayName: z.string().openapi({ example: "Stockholm" }),
     dateAdded: z.date().openapi({ example: "2024-01-01T12:00:00Z" }).nullable(),
     userId: z.string().openapi({ example: "31481398530581095" }),
-  })
+  }),
 );
 
 export const CreateFavoriteSchema = z.object({

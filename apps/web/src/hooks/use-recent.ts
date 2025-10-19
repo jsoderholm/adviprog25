@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { LocationsData } from "@/models/landing.model";
 
 export type Location = {
   lat: string;
@@ -9,19 +10,19 @@ export type Location = {
 };
 
 export type LocationHistoryStore = {
-  history: Location[];
-  append: (location: Location) => void;
+  history: LocationsData;
+  append: (location: LocationsData[number]) => void;
 };
 
 export const useRecentLocationStore = create<LocationHistoryStore>()(
   persist(
     (set) => ({
       history: [],
-      append: (location: Location) =>
+      append: (location: LocationsData[number]) =>
         set(({ history }) => {
           const existing = history.find(
-            (existing) =>
-              existing.lat === location.lat && existing.lon === location.lon
+            (existing: LocationsData[number]) =>
+              existing.lat === location.lat && existing.lon === location.lon,
           );
 
           if (existing) return { history };
@@ -30,7 +31,7 @@ export const useRecentLocationStore = create<LocationHistoryStore>()(
         }),
     }),
     {
-      name: "location-history",
-    }
-  )
+      name: "recent-locations",
+    },
+  ),
 );

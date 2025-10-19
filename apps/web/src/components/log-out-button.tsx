@@ -20,9 +20,9 @@ type LogoutButtonProps = {
 export const LogoutButton = ({ handleSignOut }: LogoutButtonProps) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="w-full">
-        <Tooltip>
-          <TooltipTrigger asChild>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <AlertDialogTrigger className="w-full" asChild>
             <Button
               size="icon"
               variant="ghost"
@@ -30,12 +30,12 @@ export const LogoutButton = ({ handleSignOut }: LogoutButtonProps) => {
             >
               <LogOut />
             </Button>
-          </TooltipTrigger>
-          <TooltipContent side="right" sideOffset={10}>
-            Log out
-          </TooltipContent>
-        </Tooltip>
-      </AlertDialogTrigger>
+          </AlertDialogTrigger>
+        </TooltipTrigger>
+        <TooltipContent side="right" sideOffset={10}>
+          Log out
+        </TooltipContent>
+      </Tooltip>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>

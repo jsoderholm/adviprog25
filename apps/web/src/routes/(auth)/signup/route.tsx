@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AuthenticationForm } from "../-components/authentication-form";
+import { AuthenticationPresenter } from "@/presenters/authentication.presenter";
 
 export const Route = createFileRoute("/(auth)/signup")({
-  component: () => <AuthenticationForm />,
+  component: () => <AuthenticationPresenter />,
 });

@@ -36,3 +36,17 @@ export function useSuggestedLocations({
     enabled,
   });
 }
+
+export function useGetLocation({ query }: UseSuggestedLocationsParams) {
+  return useQuery<LocationsData[number], Error>({
+    queryKey: ["locations", query],
+    queryFn: async () => {
+      const res = await api.geocode.$get({
+        query: { search: query },
+      });
+      if (!res.ok) throw new Error("Failed to fetch location");
+      const locations = await res.json();
+      return locations[0];
+    },
+  });
+}

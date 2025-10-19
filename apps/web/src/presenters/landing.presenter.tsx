@@ -7,6 +7,7 @@ import {
   useSuggestedLocations,
 } from "@/models/landing.model";
 import { LandingPageView } from "@/views/landing.view";
+import type { Location } from "@/components/location-card";
 
 const MIN_QUERY_LENGTH = 3 as const;
 
@@ -26,16 +27,16 @@ export const LandingPagePresenter = () => {
         search: { query },
         replace: true,
       }),
-    [navigate],
+    [navigate]
   );
 
   const debouncedHandleInputChange = useDebouncedCallback(
     handleInputChange,
-    1000,
+    1000
   );
 
   const handleNavigate = useCallback(
-    (location: LocationsData[number]) =>
+    (location: Location) =>
       navigate({
         to: "/location/$locationName",
         params: { locationName: location.display_name },
@@ -45,7 +46,7 @@ export const LandingPagePresenter = () => {
           lon: location.lon,
         },
       }),
-    [navigate],
+    [navigate]
   );
 
   const handleSelect = useCallback(
@@ -53,7 +54,7 @@ export const LandingPagePresenter = () => {
       handleNavigate(location);
       append(location);
     },
-    [append, handleNavigate],
+    [append, handleNavigate]
   );
 
   return (

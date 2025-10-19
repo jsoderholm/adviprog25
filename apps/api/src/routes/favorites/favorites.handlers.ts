@@ -21,7 +21,7 @@ export const getAll: AppRouteHandler<GetAllRoute> = async (c) => {
   } catch (_) {
     return c.json(
       { message: "Could not retrieve favorites for the given user" },
-      HttpStatusCodes.INTERNAL_SERVER_ERROR,
+      HttpStatusCodes.INTERNAL_SERVER_ERROR
     );
   }
 };
@@ -34,6 +34,8 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
       .values({
         placeId: body.placeId,
         displayName: body.displayName,
+        lat: body.lat,
+        lon: body.lon,
         userId: body.userId,
       })
       .returning()
@@ -42,7 +44,7 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
   } catch (_) {
     return c.json(
       { message: "Could not create favorite location" },
-      HttpStatusCodes.INTERNAL_SERVER_ERROR,
+      HttpStatusCodes.INTERNAL_SERVER_ERROR
     );
   }
 };
@@ -57,14 +59,14 @@ export const deleteOne: AppRouteHandler<DeleteRoute> = async (c) => {
     if (deleted.length === 0) {
       return c.json(
         { message: "Favorite location not found" },
-        HttpStatusCodes.NOT_FOUND,
+        HttpStatusCodes.NOT_FOUND
       );
     }
     return c.json({ message: "Favorite location deleted" }, HttpStatusCodes.OK);
   } catch (_) {
     return c.json(
       { message: "Could not delete favorite location" },
-      HttpStatusCodes.INTERNAL_SERVER_ERROR,
+      HttpStatusCodes.INTERNAL_SERVER_ERROR
     );
   }
 };

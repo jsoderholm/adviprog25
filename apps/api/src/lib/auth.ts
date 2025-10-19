@@ -25,4 +25,9 @@ export const auth = betterAuth({
   },
   telemetry: { enabled: false },
   plugins: [openAPI()],
+  user: {
+    deleteUser: {
+      enabled: true
+    }
+  }
 });

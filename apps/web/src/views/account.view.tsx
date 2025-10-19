@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Loader2 } from "lucide-react";
 import {
   AlertDialog,
@@ -11,13 +12,23 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type AccountViewProps = {
+  password: string;
+  onPasswordChange: (value: string) => void;
   onDelete: () => void;
   isDeleting: boolean;
 };
 
-export const AccountView = ({ onDelete, isDeleting }: AccountViewProps) => {
+export const AccountView = ({
+  password,
+  onPasswordChange,
+  onDelete,
+  isDeleting,
+}: AccountViewProps) => {
+  const passwordFieldId = useId();
+
   return (
     <div className="mx-auto max-w-lg">
       <section className="space-y-6 rounded-lg border p-6 shadow-sm">
@@ -31,8 +42,7 @@ export const AccountView = ({ onDelete, isDeleting }: AccountViewProps) => {
               Delete account
             </h2>
             <p className="text-sm text-muted-foreground">
-              Deleting your account will remove your saved locations and
-              history. This action cannot be undone.
+              Deleting your account will remove all associated data to this account. This action cannot be undone.
             </p>
           </div>
 
@@ -48,6 +58,22 @@ export const AccountView = ({ onDelete, isDeleting }: AccountViewProps) => {
                   data will be removed immediately.
                 </AlertDialogDescription>
               </AlertDialogHeader>
+              <div className="space-y-2">
+                <label
+                  htmlFor={passwordFieldId}
+                  className="text-sm font-medium"
+                >
+                  Password
+                </label>
+                <Input
+                  id={passwordFieldId}
+                  type="password"
+                  value={password}
+                  onChange={(event) => onPasswordChange(event.target.value)}
+                  placeholder="Enter your password"
+                  autoComplete="current-password"
+                />
+              </div>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction asChild>

@@ -9,7 +9,7 @@ class GeocodeService {
           headers: {
             Authorization: `Bearer ${env.GEOCODING_API_KEY}`,
           },
-        }
+        },
       );
       if (!response.ok) {
         throw new Error("Failed to fetch geocode data");

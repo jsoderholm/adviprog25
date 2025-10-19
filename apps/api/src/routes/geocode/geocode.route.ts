@@ -14,13 +14,13 @@ export const get = createRoute({
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
       GeocodeResponseSchema,
-      "Geocode data for the given location"
+      "Geocode data for the given location",
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
       createMessageObjectSchema(
-        "Could not retrieve geocode data for the given location"
+        "Could not retrieve geocode data for the given location",
       ),
-      "Failure to retrieve geocode data"
+      "Failure to retrieve geocode data",
     ),
   },
 });

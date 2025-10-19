@@ -1,52 +1,39 @@
 import { ArrowRight } from "lucide-react";
+import { LocationSearchInput } from "@/components/search-input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardAction, CardContent, CardTitle } from "@/components/ui/card";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import { Input } from "@/components/ui/input";
-import type { Location, LocationHistoryStore } from "@/hooks/use-recent";
-import { cn, getCardBackgroundStyles } from "@/lib/utils";
+import type { LocationHistoryStore } from "@/hooks/use-recent";
+import { getCardBackgroundStyles } from "@/lib/utils";
 import type { LocationsData } from "@/models/landing.model";
 
 type LandingPageViewProps = {
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSelect: (location: Location) => void;
-  suggestions: LocationsData | [];
-  numChars: number;
-  isLoading: boolean;
-} & Pick<LocationHistoryStore, "history"> & {
-    handleNavigate: (location: Location) => void;
-  };
+  suggestions: LocationsData;
+  handleInputChange: (query: string) => void;
+  handleSelect: (location: LocationsData[number]) => void;
+  handleNavigate: (location: LocationsData[number]) => void;
+  isFetching: boolean;
+} & Pick<LocationHistoryStore, "history">;
 
 export const LandingPageView = ({
-  handleInputChange,
-  handleSelect,
   suggestions,
-  numChars,
-  isLoading,
   history,
+  handleSelect,
   handleNavigate,
+  handleInputChange,
+  isFetching,
 }: LandingPageViewProps) => {
   return (
     <div className="flex flex-col gap-4">
-      <SearchInput
+      <LocationSearchInput
+        suggestions={suggestions}
         handleInputChange={handleInputChange}
-        numChars={numChars}
-        isLoading={isLoading}
-        suggestions={suggestions as LocationsData}
-        handleSelect={(name, place_id, lat, lon) =>
-          handleSelect({ name, place_id, lat, lon })
-        }
+        handleSelect={handleSelect}
+        isFetching={isFetching}
       />
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {history.map((location) => (
           <LocationHistoryCard
-            key={location.name}
+            key={location.place_id}
             location={location}
             handleNavigate={handleNavigate}
           />
@@ -57,8 +44,8 @@ export const LandingPageView = ({
 };
 
 type LocationHistoryCardProps = {
-  location: Location;
-  handleNavigate: (location: Location) => void;
+  location: LocationsData[number];
+  handleNavigate: (location: LocationsData[number]) => void;
 };
 
 const LocationHistoryCard = ({
@@ -66,11 +53,11 @@ const LocationHistoryCard = ({
   handleNavigate,
 }: LocationHistoryCardProps) => {
   return (
-    <Card className={cn("", getCardBackgroundStyles())}>
+    <Card className={getCardBackgroundStyles()}>
       <CardContent>
         <div className="flex items-center justify-between gap-4">
           <CardTitle className="text-sm whitespace-nowrap overflow-hidden text-ellipsis">
-            {location.name}
+            {location.display_name}
           </CardTitle>
           <CardAction>
             <Badge
@@ -85,74 +72,5 @@ const LocationHistoryCard = ({
         </div>
       </CardContent>
     </Card>
-  );
-};
-
-type SearchInputProps = {
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  numChars: number;
-  isLoading: boolean;
-  suggestions: LocationsData;
-  handleSelect: (
-    name: string,
-    place_id: number,
-    lat: string,
-    lon: string
-  ) => void;
-};
-
-const SearchInput = ({
-  handleInputChange,
-  numChars,
-  isLoading,
-  suggestions,
-  handleSelect,
-}: SearchInputProps) => {
-  return (
-    <div className="relative w-1/3">
-      <Input
-        placeholder="Search..."
-        onChange={handleInputChange}
-        className="placeholder:text-primary placeholder:text-[1.1rem]"
-      />
-      {/* {numChars > 0 && numChars < 3 && (
-        <div className="absolute z-10 w-full">
-          <p className="p-2">Enter at least 3 characters...</p>
-        </div>
-      )} */}
-      {numChars > 0 && numChars < 3 && (
-        <Command className="border">
-          <CommandList>
-            <CommandItem disabled>Enter at least 3 characters...</CommandItem>
-          </CommandList>
-        </Command>
-      )}
-      {numChars > 2 && (
-        <Command className="border">
-          <CommandList>
-            {isLoading && <CommandItem disabled>Searching...</CommandItem>}
-            {!isLoading && suggestions.length === 0 && (
-              <CommandEmpty>No results found.</CommandEmpty>
-            )}
-            {!isLoading && suggestions.length > 0 && (
-              <CommandGroup>
-                {suggestions.map(
-                  ({ display_name: name, lat, lon, place_id }) => (
-                    <CommandItem
-                      key={place_id}
-                      onSelect={() => handleSelect?.(name, place_id, lat, lon)}
-                      className="cursor-pointer"
-                    >
-                      {name}
-                    </CommandItem>
-                  )
-                )}
-                <CommandEmpty>No results found.</CommandEmpty>
-              </CommandGroup>
-            )}
-          </CommandList>
-        </Command>
-      )}
-    </div>
   );
 };

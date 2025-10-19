@@ -1,10 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { LandingPagePresenter } from "@/presenters/landing.presenter";
+import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
+import { z } from "zod";
 
-export const Route = createFileRoute("/_authenticated/")({
-  component: RouteComponent,
+const landingPageSearchSchema = z.object({
+  query: z.string().optional(),
 });
 
-function RouteComponent() {
-  return <LandingPagePresenter />;
-}
+export const Route = createFileRoute("/_authenticated/")({
+  validateSearch: zodValidator(landingPageSearchSchema),
+  search: {
+    middlewares: [stripSearchParams({ query: "" })],
+  },
+  loaderDeps: ({ search }) => search,
+});

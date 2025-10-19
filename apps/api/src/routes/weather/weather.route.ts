@@ -14,17 +14,17 @@ export const get = createRoute({
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
       WeatherResponseSchema,
-      "Weather data for the given location"
+      "Weather data for the given location",
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
       createMessageObjectSchema(
-        "Could not retrieve weather data for the given location"
+        "Could not retrieve weather data for the given location",
       ),
-      "Failure to process request"
+      "Failure to process request",
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
       createMessageObjectSchema("Invalid latitude or longitude parameters"),
-      "Failure to retrieve weather data"
+      "Failure to retrieve weather data",
     ),
   },
 });

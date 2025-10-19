@@ -1,12 +1,12 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { weatherQueryOptions } from "@/models/location.model";
-import { LocationView } from "@/views/location.view";
+import { toast } from "sonner";
 import {
   useAddFavorite,
   useIsFavorite,
   useRemoveFavorite,
 } from "@/models/favorites.model";
-import { toast } from "sonner";
+import { weatherQueryOptions } from "@/models/location.model";
+import { LocationView } from "@/views/location.view";
 
 type LocationPresenterProps = {
   locationName: string;

@@ -2,7 +2,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { LocationPresenter } from "@/presenters/location.presenter";
 
 export const Route = createLazyFileRoute(
-  "/_authenticated/location/$locationName"
+  "/_authenticated/location/$locationName",
 )({
   component: RouteComponent,
 });

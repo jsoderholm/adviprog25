@@ -1,9 +1,9 @@
-import type { GetAllRoute, CreateRoute, DeleteRoute } from "./favorites.route";
-import type { AppRouteHandler } from "../../lib/create-app";
+import { eq } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import { db } from "../../db";
 import { favorites as favoritesTable, user } from "../../db/schema";
-import { eq } from "drizzle-orm";
+import type { AppRouteHandler } from "../../lib/create-app";
+import type { CreateRoute, DeleteRoute, GetAllRoute } from "./favorites.route";
 
 export const getAll: AppRouteHandler<GetAllRoute> = async (c) => {
   const params = c.req.valid("query");
@@ -18,10 +18,10 @@ export const getAll: AppRouteHandler<GetAllRoute> = async (c) => {
       .from(favoritesTable)
       .where(eq(favoritesTable.userId, userId));
     return c.json(favorites, HttpStatusCodes.OK);
-  } catch (error) {
+  } catch (_) {
     return c.json(
       { message: "Could not retrieve favorites for the given user" },
-      HttpStatusCodes.INTERNAL_SERVER_ERROR
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
     );
   }
 };
@@ -39,10 +39,10 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
       .returning()
       .onConflictDoNothing();
     return c.json(newFavorite[0], HttpStatusCodes.CREATED);
-  } catch (error) {
+  } catch (_) {
     return c.json(
       { message: "Could not create favorite location" },
-      HttpStatusCodes.INTERNAL_SERVER_ERROR
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
     );
   }
 };
@@ -57,14 +57,14 @@ export const deleteOne: AppRouteHandler<DeleteRoute> = async (c) => {
     if (deleted.length === 0) {
       return c.json(
         { message: "Favorite location not found" },
-        HttpStatusCodes.NOT_FOUND
+        HttpStatusCodes.NOT_FOUND,
       );
     }
     return c.json({ message: "Favorite location deleted" }, HttpStatusCodes.OK);
-  } catch (error) {
+  } catch (_) {
     return c.json(
       { message: "Could not delete favorite location" },
-      HttpStatusCodes.INTERNAL_SERVER_ERROR
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
     );
   }
 };

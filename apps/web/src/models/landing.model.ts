@@ -15,16 +15,24 @@ export type LocationsData = {
   importance: number;
 }[];
 
-export function useSuggestedLocations(searchString: string, enabled = true) {
+type UseSuggestedLocationsParams = {
+  query: string;
+  enabled: boolean;
+};
+
+export function useSuggestedLocations({
+  query,
+  enabled,
+}: UseSuggestedLocationsParams) {
   return useQuery<LocationsData, Error>({
-    queryKey: ["locations", searchString],
+    queryKey: ["locations", query],
     queryFn: async () => {
       const res = await api.geocode.$get({
-        query: { search: searchString },
+        query: { search: query },
       });
       if (!res.ok) throw new Error("Failed to fetch location");
       return res.json() as Promise<LocationsData>;
     },
-    enabled: enabled,
+    enabled,
   });
 }

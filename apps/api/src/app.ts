@@ -2,10 +2,10 @@ import { serveStatic } from "@hono/node-server/serve-static";
 import configureOpenAPI from "./lib/configure-open-api";
 import createApp from "./lib/create-app";
 import auth from "./routes/auth";
+import favorites from "./routes/favorites/favorites.index";
 import geocode from "./routes/geocode/geocode.index";
 import index from "./routes/index.route";
 import weather from "./routes/weather/weather.index";
-import favorites from "./routes/favorites/favorites.index";
 
 const app = createApp();
 

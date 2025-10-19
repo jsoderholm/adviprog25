@@ -5,6 +5,8 @@ import { LocationCard } from "@/components/location-card";
 import type { Location } from "@/components/location-card";
 
 type LandingPageViewProps = {
+  queryLength: number;
+  isDebouncing: boolean;
   suggestions: LocationsData;
   handleInputChange: (query: string) => void;
   handleSelect: (location: LocationsData[number]) => void;
@@ -13,6 +15,8 @@ type LandingPageViewProps = {
 } & Pick<LocationHistoryStore, "history">;
 
 export const LandingPageView = ({
+  queryLength,
+  isDebouncing,
   suggestions,
   history,
   handleSelect,
@@ -26,6 +30,8 @@ export const LandingPageView = ({
       handleInputChange={handleInputChange}
       handleSelect={handleSelect}
       isFetching={isFetching}
+      queryLength={queryLength}
+      isDebouncing={isDebouncing}
     />
     <p className="text-2xl font-semibold">Recent locations</p>
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

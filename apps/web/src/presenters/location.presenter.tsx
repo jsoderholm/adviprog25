@@ -20,7 +20,6 @@ export const LocationPresenter = ({
   const { data } = useSuspenseQuery(weatherQueryOptions(lat, lon));
   const isFavorited = useIsFavorite(placeId);
   const { removeMutation, addMutation } = useFavoritesMutation();
-  console.log("Place ID:", placeId);
 
   const handleFavoriteToggle = useCallback(() => {
     if (isFavorited) removeMutation.mutate(isFavorited.id);

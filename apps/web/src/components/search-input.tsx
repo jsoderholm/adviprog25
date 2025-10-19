@@ -56,7 +56,7 @@ export const LocationSearchInput = ({
           )}
           {!isFetching && <CommandEmpty>No locations found.</CommandEmpty>}
           <CommandGroup>
-            {suggestions.map((s) => (
+            {suggestions?.map((s) => (
               <CommandItem
                 key={s.place_id}
                 value={`${s.display_name} (${s.place_id})`}

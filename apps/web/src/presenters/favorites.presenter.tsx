@@ -1,21 +1,27 @@
-import { toast } from "sonner";
-import { useFavorites, useRemoveFavorite } from "@/models/favorites.model";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
+import {
+  removeFavoriteMutationOptions,
+  useFavorites,
+} from "@/models/favorites.model";
 import { FavoritesView } from "@/views/favorites.view";
 
 export const FavoritesPresenter = () => {
+  const queryClient = useQueryClient();
   const { data, isLoading, isError } = useFavorites();
-  const removeFavoriteMutation = useRemoveFavorite();
+  const { mutate } = useMutation(removeFavoriteMutationOptions(queryClient));
 
-  const handleFavoriteToggle = (favoriteId: number, locationName: string) => {
-    removeFavoriteMutation.mutate(favoriteId);
-    toast.success(`${locationName} removed from favorites!`);
-  };
+  const handleRemoveFavorite = useCallback(
+    (id: number) => mutate(id),
+    [mutate],
+  );
+
   return (
     <FavoritesView
-      favorites={data}
+      favorites={data ?? []}
       isLoading={isLoading}
       isError={isError}
-      handleFavoriteToggle={handleFavoriteToggle}
+      handleFavoriteToggle={handleRemoveFavorite}
     />
   );
 };

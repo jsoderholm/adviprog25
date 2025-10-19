@@ -1,10 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { toast } from "sonner";
-import {
-  useAddFavorite,
-  useIsFavorite,
-  useRemoveFavorite,
-} from "@/models/favorites.model";
+import { useCallback } from "react";
+import { useFavoritesMutation, useIsFavorite } from "@/models/favorites.model";
 import { weatherQueryOptions } from "@/models/location.model";
 import { LocationView } from "@/views/location.view";
 
@@ -22,25 +18,19 @@ export const LocationPresenter = ({
   lon,
 }: LocationPresenterProps) => {
   const { data } = useSuspenseQuery(weatherQueryOptions(lat, lon));
-  const favorite = useIsFavorite(placeId);
-  const addFavoriteMutation = useAddFavorite();
-  const removeFavoriteMutation = useRemoveFavorite();
+  const isFavorited = useIsFavorite(placeId);
+  const { removeMutation, addMutation } = useFavoritesMutation();
 
-  const handleFavoriteToggle = () => {
-    if (favorite) {
-      removeFavoriteMutation.mutate(favorite.id);
-      toast.success(`${locationName} removed from favorites!`);
-    } else {
-      addFavoriteMutation.mutate({ placeId, locationName });
-      toast.success(`${locationName} added to favorites!`);
-    }
-  };
+  const handleFavoriteToggle = useCallback(() => {
+    if (isFavorited) removeMutation.mutate(isFavorited.id);
+    else addMutation.mutate({ placeId, locationName });
+  }, [isFavorited, removeMutation, addMutation, placeId, locationName]);
 
   return (
     <LocationView
       locationName={locationName}
       locationData={data}
-      isFavorite={!!favorite}
+      isFavorite={!!isFavorited}
       onFavoriteToggle={handleFavoriteToggle}
     />
   );

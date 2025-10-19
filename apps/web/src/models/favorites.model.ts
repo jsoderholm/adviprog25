@@ -1,6 +1,14 @@
-import { api, authClient } from "@repo/api";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { api } from "@repo/api";
+import {
+  mutationOptions,
+  type QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useMemo } from "react";
+import { toast } from "sonner";
+import { authQueryOptions } from "@/lib/query/auth-queries";
 
 export type FavoriteData = {
   id: number;
@@ -11,15 +19,17 @@ export type FavoriteData = {
 };
 
 export function useFavorites() {
+  const queryClient = useQueryClient();
   return useQuery<FavoriteData[], Error>({
     queryKey: ["favorites"],
     queryFn: async () => {
-      const session = await authClient.getSession();
-      if (!session || !session.data) throw new Error("Not authenticated");
-      const userId = session.data.user.id;
+      const session = await queryClient.fetchQuery(authQueryOptions);
+      if (!session.data) throw new Error("Not authenticated");
+
       const res = await api.favorites.$get({
-        query: { user: userId },
+        query: { user: session.data.user.id },
       });
+
       if (!res.ok) throw new Error("Failed to fetch location");
       return res.json() as Promise<FavoriteData[]>;
     },
@@ -27,16 +37,16 @@ export function useFavorites() {
 }
 
 export function useIsFavorite(placeId: number) {
-  const { data: favorites } = useFavorites();
-  return useMemo(() => {
-    const favorite = favorites?.find((fav) => fav.placeId === placeId);
-    return favorite ? favorite : null;
-  }, [favorites, placeId]);
+  const { data } = useFavorites();
+
+  return useMemo(
+    () => data?.find((fav) => fav.placeId === placeId) ?? null,
+    [data, placeId],
+  );
 }
 
-export const useAddFavorite = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
+const addFavoriteMutationOptions = (queryClient: QueryClient) =>
+  mutationOptions({
     mutationFn: async ({
       placeId,
       locationName,
@@ -44,37 +54,49 @@ export const useAddFavorite = () => {
       placeId: number;
       locationName: string;
     }) => {
-      const session = await authClient.getSession();
-      const userId = session?.data?.user.id;
-      if (!userId) throw new Error("Not authenticated");
+      const session = await queryClient.fetchQuery(authQueryOptions);
+      if (!session.data) {
+        toast.error("Not authenticated");
+        return;
+      }
 
       return api.favorites.$post({
         json: {
           placeId: placeId,
           displayName: locationName,
-          userId,
+          userId: session.data.user.id,
         },
       });
     },
+    onError: () => toast.error("Oh no! Something went wrong."),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["favorites"] });
+      toast.success(`Successfully added location to favorites!`);
     },
   });
-};
 
-export const useRemoveFavorite = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (id: number | null) => {
-      if (id === null) {
-        throw new Error("Favorite ID is null");
-      }
-      return api.favorites.$delete({
+export const removeFavoriteMutationOptions = (queryClient: QueryClient) =>
+  mutationOptions({
+    mutationFn: (id: number) =>
+      api.favorites.$delete({
         json: {
           id: id,
         },
-      });
+      }),
+    onError: () => toast.error("Oh no! Something went wrong."),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["favorites"] });
+      toast.success(`Successfully removed location from favorites!`);
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["favorites"] }),
   });
+
+export const useFavoritesMutation = () => {
+  const queryClient = useQueryClient();
+
+  const removeMutation = useMutation(
+    removeFavoriteMutationOptions(queryClient),
+  );
+  const addMutation = useMutation(addFavoriteMutationOptions(queryClient));
+
+  return { removeMutation, addMutation };
 };

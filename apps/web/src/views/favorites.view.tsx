@@ -13,7 +13,7 @@ import type { FavoriteData } from "@/models/favorites.model";
 type FavoriteCardProps = {
   location: string;
   favoriteId: number;
-  handleFavoriteToggle: (favoriteId: number, locationName: string) => void;
+  handleFavoriteToggle: (id: number, name: string) => void;
 };
 
 const FavoriteCard = ({
@@ -40,11 +40,12 @@ const FavoriteCard = ({
     </CardHeader>
   </Card>
 );
+
 type FavoritesViewProps = {
-  favorites: FavoriteData[] | undefined;
+  favorites: FavoriteData[];
   isLoading: boolean;
   isError: boolean;
-  handleFavoriteToggle: (favoriteId: number, locationName: string) => void;
+  handleFavoriteToggle: (id: number, name: string) => void;
 };
 
 export const FavoritesView = (props: FavoritesViewProps) => {
@@ -55,11 +56,11 @@ export const FavoritesView = (props: FavoritesViewProps) => {
     <>
       <h1 className="text-4xl font-semibold m-4">Favorites</h1>
       <div>
-        {props.favorites!.map((favorite) => (
+        {props.favorites.map(({ id, displayName }) => (
           <FavoriteCard
-            key={favorite.id}
-            favoriteId={favorite.id}
-            location={favorite.displayName}
+            key={id}
+            favoriteId={id}
+            location={displayName}
             handleFavoriteToggle={props.handleFavoriteToggle}
           />
         ))}

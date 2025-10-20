@@ -20,7 +20,7 @@ const FavoriteButton = ({ handleFavoriteToggle }: FavoriteButtonProps) => (
     }}
   >
     Favorite
-    <Heart fill="true" />
+    <Heart className="fill-black dark:fill-white" />
   </Button>
 );
 

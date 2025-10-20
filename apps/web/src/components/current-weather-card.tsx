@@ -49,7 +49,10 @@ export function CurrentWeatherCard(props: CurrentWeatherCardProps) {
             onClick={props.onFavoriteToggle}
           >
             Favorite
-            <Heart fill={props.isFavorite ? "white" : "none"} />
+            <Heart 
+              className={props.isFavorite ? "text-black dark:text-white" : undefined}
+              fill={props.isFavorite ? "currentColor" : "none"}
+            />
           </Button>
         </CardAction>
       </CardHeader>

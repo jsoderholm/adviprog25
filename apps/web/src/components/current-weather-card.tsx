@@ -3,7 +3,6 @@ import {
   Cloud,
   Droplet,
   Heart,
-  Info,
   Thermometer,
   Wind,
   WindArrowDownIcon,
@@ -53,8 +52,10 @@ export function CurrentWeatherCard(props: CurrentWeatherCardProps) {
             onClick={props.onFavoriteToggle}
           >
             Favorite
-            <Heart 
-              className={props.isFavorite ? "text-black dark:text-white" : undefined}
+            <Heart
+              className={
+                props.isFavorite ? "text-black dark:text-white" : undefined
+              }
               fill={props.isFavorite ? "currentColor" : "none"}
             />
           </Button>

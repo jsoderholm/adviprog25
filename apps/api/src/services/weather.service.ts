@@ -36,7 +36,7 @@ class WeatherService {
         "cloud_cover",
         "weather_code",
       ],
-      timezone: "Europe/Berlin",
+      timezone: "auto",
     };
 
     const url = "https://api.open-meteo.com/v1/forecast";
@@ -46,6 +46,7 @@ class WeatherService {
       return null;
     }
     const response = responses[0];
+    const utcOffsetSeconds = response.utcOffsetSeconds();
 
     // Attributes for location
     const locationData = {
@@ -54,11 +55,10 @@ class WeatherService {
       elevation: response.elevation(),
       timezone: response.timezone(),
       timezoneAbbreviation: response.timezoneAbbreviation(),
-      utcOffsetSeconds: response.utcOffsetSeconds(),
+      utcOffsetSeconds,
     };
 
     // Attributes for weather data
-    const utcOffsetSeconds = response.utcOffsetSeconds();
     const current = response.current()!;
     const hourly = response.hourly()!;
     const daily = response.daily()!;
@@ -68,7 +68,7 @@ class WeatherService {
     // Note: The order of weather variables in the URL query and the indices below need to match!
     const weatherData = {
       current: {
-        time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
+        time: new Date(Number(current.time()) * 1000),
         relative_humidity_2m: current.variables(0)!.value(),
         apparent_temperature: current.variables(1)!.value(),
         wind_speed_10m: current.variables(2)!.value(),
@@ -92,10 +92,7 @@ class WeatherService {
         ].map(
           (_, i) =>
             new Date(
-              (Number(hourly.time()) +
-                i * hourly.interval() +
-                utcOffsetSeconds) *
-                1000,
+              (Number(hourly.time()) + i * hourly.interval()) * 1000,
             ),
         ),
         temperature_2m: this.makeArray(hourly.variables(0)!.valuesArray()),
@@ -110,8 +107,7 @@ class WeatherService {
         ].map(
           (_, i) =>
             new Date(
-              (Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) *
-                1000,
+              (Number(daily.time()) + i * daily.interval()) * 1000,
             ),
         ),
         temperature_2m_max: this.makeArray(daily.variables(0)!.valuesArray()),
@@ -124,14 +120,12 @@ class WeatherService {
         // Map Int64 values to according structure
         sunrise: [...Array(sunrise.valuesInt64Length())].map(
           (_, i) =>
-            new Date(
-              (Number(sunrise.valuesInt64(i)) + utcOffsetSeconds) * 1000,
-            ),
+            new Date(Number(sunrise.valuesInt64(i)) * 1000),
         ),
         // Map Int64 values to according structure
         sunset: [...Array(sunset.valuesInt64Length())].map(
           (_, i) =>
-            new Date((Number(sunset.valuesInt64(i)) + utcOffsetSeconds) * 1000),
+            new Date(Number(sunset.valuesInt64(i)) * 1000),
         ),
         wind_speed_10m_max: this.makeArray(daily.variables(7)!.valuesArray()),
         weather_code: this.makeArray(daily.variables(8)!.valuesArray()),

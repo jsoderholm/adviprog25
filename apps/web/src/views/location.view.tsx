@@ -1,16 +1,18 @@
-import { addDays, format, isWithinInterval, parseISO } from "date-fns";
+import { addDays, isWithinInterval, parseISO } from "date-fns";
 import { CurrentWeatherCard } from "@/components/current-weather-card";
 import {
   type ForecastRow,
   ForecastTable,
 } from "@/components/forecast-table/forecast-table";
 import { useForecastColumns } from "@/components/forecast-table/use-forecast-columns";
+import { formatInTimeZone } from "@/lib/timezone";
 import type { WeatherData } from "@/models/location.model";
 
 const transformWeatherDataToForecastRows = (
   weatherData: WeatherData,
 ): ForecastRow[] => {
   const { daily, hourly } = weatherData.weather;
+  const timeZone = weatherData.location.timezone;
 
   return daily.time.map((date, index) => {
     const dayStart = parseISO(date);
@@ -29,13 +31,28 @@ const transformWeatherDataToForecastRows = (
 
     // Format children data
     const children = dayHourlyData.map(({ time, temperature }) => ({
-      date: format(parseISO(time), "HH:mm"),
+      date: formatInTimeZone(
+        time,
+        timeZone,
+        { hour: "2-digit", minute: "2-digit", hour12: false },
+        "en-GB",
+      ),
       temperature: `${Math.round(temperature)}°C`,
     }));
 
     // Format sunrise/sunset
-    const sunrise = format(parseISO(daily.sunrise[index]), "HH:mm");
-    const sunset = format(parseISO(daily.sunset[index]), "HH:mm");
+    const sunrise = formatInTimeZone(
+      daily.sunrise[index],
+      timeZone,
+      { hour: "2-digit", minute: "2-digit", hour12: false },
+      "en-GB",
+    );
+    const sunset = formatInTimeZone(
+      daily.sunset[index],
+      timeZone,
+      { hour: "2-digit", minute: "2-digit", hour12: false },
+      "en-GB",
+    );
 
     // Format precipitation
     const precipitationMm =
@@ -51,7 +68,11 @@ const transformWeatherDataToForecastRows = (
     const temperature = `${tempHigh}°C / ${tempLow}°C`;
 
     return {
-      date: format(parseISO(date), "EEEE, MMM d"),
+      date: formatInTimeZone(
+        date,
+        timeZone,
+        { weekday: "long", month: "short", day: "numeric" },
+      ),
       temperature,
       precipitation,
       windSpeed: `${Math.round(daily.wind_speed_10m_max[index] * 10) / 10} m/s`,
@@ -71,6 +92,7 @@ type LocationViewProps = {
 export const LocationView = (props: LocationViewProps) => {
   const columns = useForecastColumns();
   const forecastData = transformWeatherDataToForecastRows(props.locationData);
+  const locationTimezone = props.locationData.location.timezone;
 
   return (
     <div className="grid gap-4">
@@ -78,6 +100,7 @@ export const LocationView = (props: LocationViewProps) => {
         isFavorite={props.isFavorite}
         onFavoriteToggle={props.onFavoriteToggle}
         date={props.locationData.weather.current.time}
+        timezone={locationTimezone}
         relative_humidity_2m={
           props.locationData.weather.current.relative_humidity_2m
         }

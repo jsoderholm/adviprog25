@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import {
   Cloud,
   Droplet,
@@ -8,6 +7,7 @@ import {
   WindArrowDownIcon,
 } from "lucide-react";
 import { getCardBackgroundStyles } from "@/lib/utils";
+import { formatInTimeZone } from "@/lib/timezone";
 import type { WeatherData } from "@/models/location.model";
 import { weatherIcon } from "@/models/location.model";
 import { Button } from "./ui/button";
@@ -22,6 +22,7 @@ import {
 type CurrentWeatherCardProps = CurrentWeather & {
   date: string;
   location: string;
+  timezone: string;
   isFavorite: boolean;
   onFavoriteToggle: () => void;
 };
@@ -39,11 +40,17 @@ type CurrentWeather = Pick<
 
 export function CurrentWeatherCard(props: CurrentWeatherCardProps) {
   const { icon: Icon, text } = weatherIcon(props.weather_code);
+  const formattedDate = formatInTimeZone(
+    props.date,
+    props.timezone,
+    { day: "numeric", month: "long" },
+    "en-GB",
+  );
   return (
     <Card className={getCardBackgroundStyles()}>
       <CardHeader>
         <CardTitle className="text-2xl">{props.location}</CardTitle>
-        <CardDescription>{format(props.date, "d MMMM")}</CardDescription>
+        <CardDescription>{formattedDate}</CardDescription>
         <CardAction>
           <Button
             size="sm"

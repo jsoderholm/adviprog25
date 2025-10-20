@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { getCardBackgroundStyles } from "@/lib/utils";
 import type { WeatherData } from "@/models/location.model";
+import { weatherIcon } from "@/models/location.model";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -33,9 +34,11 @@ type CurrentWeather = Pick<
   | "precipitation"
   | "temperature_2m"
   | "wind_gusts_10m"
+  | "weather_code"
 >;
 
 export function CurrentWeatherCard(props: CurrentWeatherCardProps) {
+  const { icon: Icon, text } = weatherIcon(props.weather_code);
   return (
     <Card className={getCardBackgroundStyles()}>
       <CardHeader>
@@ -49,15 +52,23 @@ export function CurrentWeatherCard(props: CurrentWeatherCardProps) {
             onClick={props.onFavoriteToggle}
           >
             Favorite
-            <Heart 
-              className={props.isFavorite ? "text-black dark:text-white" : undefined}
+            <Heart
+              className={
+                props.isFavorite ? "text-black dark:text-white" : undefined
+              }
               fill={props.isFavorite ? "currentColor" : "none"}
             />
           </Button>
         </CardAction>
       </CardHeader>
-
-      <div className="grid grid-cols-2 sm:grid-cols-3  gap-6 items-center">
+      <div className="grid grid-cols-3 sm:grid-cols-4 gap-6 items-center">
+        <div className="row-span-3 sm:row-span-2 overflow-hidden">
+          <InformationBadge
+            label={text}
+            icon={<Icon className="size-50" />}
+            value={""}
+          />
+        </div>
         <InformationBadge
           label="Temperature"
           icon={<Thermometer className="size-5" />}

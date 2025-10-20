@@ -18,8 +18,9 @@ class WeatherService {
         "sunrise",
         "sunset",
         "wind_speed_10m_max",
+        "weather_code",
       ],
-      hourly: ["temperature_2m", "uv_index"],
+      hourly: ["temperature_2m", "uv_index", "weather_code"],
       current: [
         "relative_humidity_2m",
         "apparent_temperature",
@@ -33,6 +34,7 @@ class WeatherService {
         "showers",
         "snowfall",
         "cloud_cover",
+        "weather_code",
       ],
       timezone: "Europe/Berlin",
     };
@@ -79,6 +81,7 @@ class WeatherService {
         showers: current.variables(9)!.value(),
         snowfall: current.variables(10)!.value(),
         cloud_cover: current.variables(11)!.value(),
+        weather_code: current.variables(12)!.value(),
       },
       hourly: {
         time: [
@@ -97,6 +100,7 @@ class WeatherService {
         ),
         temperature_2m: this.makeArray(hourly.variables(0)!.valuesArray()),
         uv_index: this.makeArray(hourly.variables(1)!.valuesArray()),
+        weather_code: this.makeArray(hourly.variables(2)!.valuesArray()),
       },
       daily: {
         time: [
@@ -130,6 +134,7 @@ class WeatherService {
             new Date((Number(sunset.valuesInt64(i)) + utcOffsetSeconds) * 1000),
         ),
         wind_speed_10m_max: this.makeArray(daily.variables(7)!.valuesArray()),
+        weather_code: this.makeArray(daily.variables(8)!.valuesArray()),
       },
     };
     return { location: locationData, weather: weatherData };

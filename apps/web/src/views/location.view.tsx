@@ -89,6 +89,7 @@ export const LocationView = (props: LocationViewProps) => {
         temperature_2m={props.locationData.weather.current.temperature_2m}
         wind_gusts_10m={props.locationData.weather.current.wind_gusts_10m}
         location={props.locationName}
+        weather_code={props.locationData.weather.current.weather_code}
       />
       <ForecastTable data={forecastData} columns={columns} />
     </div>

@@ -42,6 +42,7 @@ export const WeatherResponseSchema = z
           showers: z.number().openapi({ example: 0 }),
           snowfall: z.number().openapi({ example: 0 }),
           cloud_cover: z.number().openapi({ example: 75 }),
+          weather_code: z.number().openapi({ example: 3 }),
         }),
         hourly: z.object({
           time: z.array(z.string()).openapi({
@@ -67,6 +68,14 @@ export const WeatherResponseSchema = z
               example: [12.3, 11.8, 11.5],
               description:
                 "An array of UV index values, where i-th element corresponds to the UV index at hour i from midnight. 168 elements, covering 7 days.",
+            })
+            .nullable(),
+          weather_code: z
+            .array(z.number())
+            .openapi({
+              example: [0, 3, 1],
+              description:
+                "An array of weather code values, where i-th element corresponds to the weather code at hour i from midnight. 168 elements, covering 7 days.",
             })
             .nullable(),
         }),
@@ -148,6 +157,14 @@ export const WeatherResponseSchema = z
               example: [12.3, 11.8, 11.5],
               description:
                 "Array of maximum wind speeds, where i-th element corresponds to the maximum wind speed at day i from midnight today. 7 elements, covering 7 days.",
+            })
+            .nullable(),
+          weather_code: z
+            .array(z.number())
+            .openapi({
+              example: [0, 3, 1],
+              description:
+                "Array of weather codes, where i-th element corresponds to the weather code of day i from midnight today. 7 elements, covering 7 days.",
             })
             .nullable(),
         }),
